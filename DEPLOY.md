@@ -72,7 +72,7 @@ You can also trigger it manually:
 
 1. Verifies FTP secrets are set
 2. Runs `npm ci` and `npm run build`
-3. Uploads `dist/` to Hostinger via FTPS
+3. Uploads `dist/` to Hostinger via FTP (port 21)
 
 ## 4. Verify the live site
 
@@ -90,13 +90,23 @@ Check that HTTPS redirects work and that a bad URL shows the custom 404 page.
 
 Add all three secrets from step 2a. The workflow prints which secret is missing.
 
-### Deploy fails: FTPS connection
+### Deploy fails: connection timeout or FTPS error
 
-Hostinger usually supports FTPS on port 21. If connection fails:
+`Timeout (control socket)` usually means FTPS from GitHub’s servers is blocked or slow on Hostinger. The workflow defaults to plain **FTP** on port 21, which Hostinger supports and works reliably from GitHub Actions.
 
-1. Confirm the host, username, and password in hPanel.
-2. Try connecting with FileZilla using **FTP over TLS (explicit)**.
-3. If FTPS still fails, open an issue or temporarily change `protocol:` in `.github/workflows/deploy.yml` from `ftps` to `ftp` (less secure).
+To try FTPS again, set a repository variable:
+
+| Variable | Value |
+|---|---|
+| `FTP_PROTOCOL` | `ftps` or `ftps-legacy` |
+
+Also verify in FileZilla:
+
+1. Same host, username, and password as your GitHub secrets
+2. **Protocol:** FTP (or FTP over TLS if testing FTPS)
+3. **Port:** 21
+
+> Hostinger **SFTP** (port 22) is not supported by this deploy action. Use FTP on port 21.
 
 ### Files uploaded to the wrong folder
 
