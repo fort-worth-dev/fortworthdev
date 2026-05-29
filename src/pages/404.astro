@@ -1,0 +1,99 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Nav from '@/components/Nav.astro';
+import Footer from '@/components/Footer.astro';
+---
+
+<BaseLayout
+  title="404 — Fort Worth Dev"
+  description="Page not found."
+>
+  <div class="scanline" aria-hidden="true"></div>
+
+  <Nav />
+  <main class="page-x section-y max-w-3xl">
+    <div class="flex items-center gap-3 mb-8">
+      <span class="text-[11px] text-green-DEFAULT tracking-[0.15em]">// 404</span>
+      <h1 class="font-display font-bold text-2xl md:text-[28px] text-ink" style="letter-spacing: -0.01em;">
+        Not found
+      </h1>
+      <div class="h-px max-w-[120px] flex-1" style="background: var(--border-green);"></div>
+    </div>
+
+    <p class="text-[14px] text-ink-2 leading-loose mb-8">
+      That route doesn't exist. Maybe it was moved, or the URL is wrong.
+    </p>
+
+    <div class="flex gap-4 flex-wrap">
+      <a href="/" class="btn-primary">← home</a>
+      <a href="/blog/" class="btn-secondary">read the blog</a>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .scanline {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(transparent, rgba(74, 222, 128, 0.04), transparent);
+    animation: scan 8s linear infinite;
+    pointer-events: none;
+    z-index: 999;
+  }
+
+  @keyframes scan {
+    0% {
+      top: -2px;
+    }
+    100% {
+      top: 100vh;
+    }
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 24px;
+    background: #4ade80;
+    color: #0a0c0e;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: opacity 0.15s, transform 0.1s;
+  }
+
+  .btn-primary:hover {
+    opacity: 0.88;
+    transform: translateY(-1px);
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 24px;
+    background: transparent;
+    color: #4ade80;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 400;
+    text-decoration: none;
+    border: 1px solid var(--border-green-2);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: background 0.15s, transform 0.1s;
+  }
+
+  .btn-secondary:hover {
+    background: var(--green-glow);
+    transform: translateY(-1px);
+  }
+</style>

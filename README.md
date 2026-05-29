@@ -23,7 +23,13 @@ npm run preview    # preview the build locally
 
 ## Deployment (Hostinger via FTP)
 
-Set these secrets in your GitHub repo (Settings → Secrets → Actions):
+**Full setup guide:** [DEPLOY.md](./DEPLOY.md)
+
+Quick checklist:
+
+1. Add GitHub Actions secrets: `FTP_HOST`, `FTP_USERNAME`, `FTP_PASSWORD`
+2. Optionally set repo variable `FTP_SERVER_DIR` if your web root isn't `/public_html/`
+3. Push to `main` (or run **Deploy to Hostinger** manually from Actions)
 
 | Secret | Value |
 |---|---|
@@ -31,7 +37,7 @@ Set these secrets in your GitHub repo (Settings → Secrets → Actions):
 | `FTP_USERNAME` | Your Hostinger FTP username |
 | `FTP_PASSWORD` | Your Hostinger FTP password |
 
-Push to `main` → GitHub Actions builds and deploys automatically.
+Push to `main` → GitHub Actions builds and deploys automatically via FTPS.
 
 ## Project structure
 
