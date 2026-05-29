@@ -26,19 +26,17 @@ function formatDate(date: Date) {
   <Nav />
   <main class="page-x section-y max-w-3xl">
     <div class="flex items-center gap-3 mb-10">
-      <span class="text-[11px] text-green-DEFAULT tracking-[0.15em]">// blog</span>
-      <h1 class="font-display font-bold text-2xl md:text-[28px] text-ink" style="letter-spacing: -0.01em;">
-        Writing
-      </h1>
+      <span class="text-label text-green-DEFAULT tracking-[0.15em]">// blog</span>
+      <h1 class="text-section-title">Writing</h1>
       <div class="h-px max-w-[120px] flex-1" style="background: var(--border-green);"></div>
     </div>
 
-    <p class="text-[13px] text-ink-2 max-w-[560px] mb-10 leading-loose">
+    <p class="text-body text-ink-2 max-w-[560px] mb-10 leading-loose">
       Notes on AI-augmented .NET development — tooling, architecture, and workflows that ship.
     </p>
 
     {posts.length === 0 ? (
-      <p class="text-[13px] text-muted">No posts yet. Check back soon.</p>
+      <p class="text-body text-muted">No posts yet. Check back soon.</p>
     ) : (
       <ul class="list-none flex flex-col gap-4">
         {posts.map((post) => (
@@ -50,14 +48,14 @@ function formatDate(date: Date) {
             >
               <time
                 datetime={post.data.date.toISOString()}
-                class="text-[11px] text-green-DEFAULT tracking-widest uppercase"
+                class="text-label text-green-DEFAULT tracking-widest uppercase"
               >
                 {formatDate(post.data.date)}
               </time>
-              <h2 class="font-display font-bold text-xl text-ink mt-2 mb-2" style="letter-spacing: -0.01em;">
+              <h2 class="font-display font-bold text-2xl text-ink mt-2 mb-2" style="letter-spacing: -0.01em;">
                 {post.data.title}
               </h2>
-              <p class="text-[13px] text-ink-2 leading-loose">{post.data.description}</p>
+              <p class="text-body text-ink-2 leading-loose">{post.data.description}</p>
             </a>
           </li>
         ))}

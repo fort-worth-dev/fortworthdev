@@ -9,6 +9,23 @@
     --green-glow: rgba(74, 222, 128, 0.12);
     --border-green: rgba(80, 180, 120, 0.18);
     --border-green-2: rgba(80, 180, 120, 0.35);
+
+    /* Readable type scale — bumped for comfort, larger on mobile */
+    --text-label: 0.875rem;     /* 14px */
+    --text-meta: 0.9375rem;     /* 15px */
+    --text-body: 1.0625rem;     /* 17px */
+    --text-body-lg: 1.125rem;   /* 18px */
+    --text-stat: 1.75rem;       /* 28px */
+  }
+
+  @media (min-width: 768px) {
+    :root {
+      --text-label: 0.8125rem;    /* 13px */
+      --text-meta: 0.875rem;      /* 14px */
+      --text-body: 1rem;          /* 16px */
+      --text-body-lg: 1.0625rem;  /* 17px */
+      --text-stat: 1.625rem;      /* 26px */
+    }
   }
 
   html {
@@ -17,8 +34,8 @@
 
   body {
     @apply bg-bg text-ink font-mono;
-    font-size: 14px;
-    line-height: 1.6;
+    font-size: var(--text-body-lg);
+    line-height: 1.65;
   }
 
   ::selection {
@@ -47,5 +64,30 @@
   }
   .text-green-accent {
     color: #4ade80;
+  }
+
+  .text-label {
+    font-size: var(--text-label);
+  }
+
+  .text-meta {
+    font-size: var(--text-meta);
+  }
+
+  .text-body {
+    font-size: var(--text-body);
+  }
+
+  .text-body-lg {
+    font-size: var(--text-body-lg);
+  }
+
+  .text-stat {
+    font-size: var(--text-stat);
+  }
+
+  .text-section-title {
+    @apply font-display font-bold text-3xl md:text-[2rem] text-ink;
+    letter-spacing: -0.01em;
   }
 }

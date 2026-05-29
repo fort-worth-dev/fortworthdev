@@ -29,20 +29,20 @@ const formattedDate = date.toLocaleDateString('en-US', {
   <main class="page-x section-y max-w-3xl">
     <a
       href="/blog"
-      class="inline-block text-[12px] text-muted uppercase tracking-widest mb-8 transition-colors duration-150 hover:text-green-DEFAULT"
+      class="inline-block text-meta text-muted uppercase tracking-widest mb-8 transition-colors duration-150 hover:text-green-DEFAULT"
     >
       ← All posts
     </a>
 
     <article class="blog-prose">
       <header class="mb-10 pb-8" style="border-bottom: 1px solid var(--border-green);">
-        <time datetime={date.toISOString()} class="text-[11px] text-green-DEFAULT tracking-[0.15em]">
+        <time datetime={date.toISOString()} class="text-label text-green-DEFAULT tracking-[0.15em]">
           {formattedDate}
         </time>
         <h1 class="font-display font-bold text-3xl md:text-4xl text-ink mt-3 mb-4" style="letter-spacing: -0.02em;">
           {title}
         </h1>
-        <p class="text-[14px] text-ink-2 leading-loose">{description}</p>
+        <p class="text-body-lg text-ink-2 leading-loose">{description}</p>
       </header>
 
       <slot />
@@ -74,16 +74,21 @@ const formattedDate = date.toLocaleDateString('en-US', {
   }
 
   .blog-prose :global(h2) {
-    @apply font-display font-bold text-2xl text-ink mt-10 mb-4;
+    @apply font-display font-bold text-ink mt-10 mb-4;
+    font-size: 1.5rem;
     letter-spacing: -0.01em;
   }
 
   .blog-prose :global(h3) {
-    @apply font-display font-bold text-xl text-ink mt-8 mb-3;
+    @apply font-display font-bold text-ink mt-8 mb-3;
+    font-size: 1.25rem;
   }
 
   .blog-prose :global(p) {
-    @apply text-[14px] text-ink-2 leading-loose mb-4;
+    color: #94a3b8;
+    font-size: var(--text-body-lg);
+    line-height: 1.75;
+    margin-bottom: 1rem;
   }
 
   .blog-prose :global(a) {
@@ -99,7 +104,11 @@ const formattedDate = date.toLocaleDateString('en-US', {
 
   .blog-prose :global(ul),
   .blog-prose :global(ol) {
-    @apply text-[14px] text-ink-2 leading-loose mb-4 pl-6;
+    color: #94a3b8;
+    font-size: var(--text-body-lg);
+    line-height: 1.75;
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
   }
 
   .blog-prose :global(li) {
@@ -108,20 +117,29 @@ const formattedDate = date.toLocaleDateString('en-US', {
 
   .blog-prose :global(code) {
     color: #4ade80;
-    font-size: 13px;
+    font-size: var(--text-body);
   }
 
   .blog-prose :global(pre) {
-    @apply bg-bg-3 text-[13px] text-ink-2 p-4 mb-4 overflow-x-auto;
+    background: #151b23;
+    color: #94a3b8;
+    font-size: var(--text-body);
+    padding: 1rem;
+    margin-bottom: 1rem;
+    overflow-x: auto;
     border: 1px solid var(--border-green);
   }
 
   .blog-prose :global(pre code) {
-    @apply text-ink-2;
+    color: #94a3b8;
   }
 
   .blog-prose :global(blockquote) {
-    @apply text-[14px] text-ink-2 italic mb-4 pl-4;
+    color: #94a3b8;
+    font-size: var(--text-body-lg);
+    font-style: italic;
+    margin-bottom: 1rem;
+    padding-left: 1rem;
     border-left: 2px solid var(--border-green-2);
   }
 
