@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,700;1,400&family=Syne:wght@400;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --green-glow: rgba(74, 222, 128, 0.12);
+    --border-green: rgba(80, 180, 120, 0.18);
+    --border-green-2: rgba(80, 180, 120, 0.35);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-bg text-ink font-mono;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  ::selection {
+    background: rgba(74, 222, 128, 0.25);
+    color: #4ade80;
+  }
+}
+
+@layer utilities {
+  .page-x {
+    @apply px-4 md:px-10;
+  }
+
+  .section-y {
+    @apply py-12 md:py-[72px];
+  }
+
+  .border-green-dim {
+    border-color: var(--border-green);
+  }
+  .border-green-mid {
+    border-color: var(--border-green-2);
+  }
+  .bg-green-glow {
+    background-color: var(--green-glow);
+  }
+  .text-green-accent {
+    color: #4ade80;
+  }
+}

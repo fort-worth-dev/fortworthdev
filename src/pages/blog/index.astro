@@ -1,0 +1,100 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Nav from '@/components/Nav.astro';
+import Footer from '@/components/Footer.astro';
+
+const posts = (await getCollection('blog', ({ data }) => {
+  return import.meta.env.PROD ? !data.draft : true;
+})).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+}
+---
+
+<BaseLayout
+  title="Blog — Fort Worth Dev"
+  description="Notes on AI-augmented .NET development — case studies, tooling, and workflows."
+>
+  <div class="scanline" aria-hidden="true"></div>
+
+  <Nav />
+  <main class="page-x section-y max-w-3xl">
+    <div class="flex items-center gap-3 mb-10">
+      <span class="text-[11px] text-green-DEFAULT tracking-[0.15em]">// blog</span>
+      <h1 class="font-display font-bold text-2xl md:text-[28px] text-ink" style="letter-spacing: -0.01em;">
+        Writing
+      </h1>
+      <div class="h-px max-w-[120px] flex-1" style="background: var(--border-green);"></div>
+    </div>
+
+    <p class="text-[13px] text-ink-2 max-w-[560px] mb-10 leading-loose">
+      Notes on AI-augmented .NET development — tooling, architecture, and workflows that ship.
+    </p>
+
+    {posts.length === 0 ? (
+      <p class="text-[13px] text-muted">No posts yet. Check back soon.</p>
+    ) : (
+      <ul class="list-none flex flex-col gap-4">
+        {posts.map((post) => (
+          <li>
+            <a
+              href={`/blog/${post.slug}/`}
+              class="post-link block p-6 bg-bg-3 transition-colors duration-150"
+              style="border: 1px solid var(--border-green);"
+            >
+              <time
+                datetime={post.data.date.toISOString()}
+                class="text-[11px] text-green-DEFAULT tracking-widest uppercase"
+              >
+                {formatDate(post.data.date)}
+              </time>
+              <h2 class="font-display font-bold text-xl text-ink mt-2 mb-2" style="letter-spacing: -0.01em;">
+                {post.data.title}
+              </h2>
+              <p class="text-[13px] text-ink-2 leading-loose">{post.data.description}</p>
+            </a>
+          </li>
+        ))}
+      </ul>
+    )}
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .scanline {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(transparent, rgba(74, 222, 128, 0.04), transparent);
+    animation: scan 8s linear infinite;
+    pointer-events: none;
+    z-index: 999;
+  }
+
+  @keyframes scan {
+    0% {
+      top: -2px;
+    }
+    100% {
+      top: 100vh;
+    }
+  }
+
+  .post-link:hover {
+    border-color: var(--border-green-2) !important;
+    background: var(--green-glow);
+  }
+
+  .post-link:hover h2 {
+    color: #4ade80;
+  }
+</style>

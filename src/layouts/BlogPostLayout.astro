@@ -1,0 +1,136 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Nav from '@/components/Nav.astro';
+import Footer from '@/components/Footer.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  date: Date;
+}
+
+const { title, description, date } = Astro.props;
+
+const formattedDate = date.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<BaseLayout
+  title={`${title} — Fort Worth Dev`}
+  description={description}
+  ogType="article"
+>
+  <div class="scanline" aria-hidden="true"></div>
+
+  <Nav />
+  <main class="page-x section-y max-w-3xl">
+    <a
+      href="/blog"
+      class="inline-block text-[12px] text-muted uppercase tracking-widest mb-8 transition-colors duration-150 hover:text-green-DEFAULT"
+    >
+      ← All posts
+    </a>
+
+    <article class="blog-prose">
+      <header class="mb-10 pb-8" style="border-bottom: 1px solid var(--border-green);">
+        <time datetime={date.toISOString()} class="text-[11px] text-green-DEFAULT tracking-[0.15em]">
+          {formattedDate}
+        </time>
+        <h1 class="font-display font-bold text-3xl md:text-4xl text-ink mt-3 mb-4" style="letter-spacing: -0.02em;">
+          {title}
+        </h1>
+        <p class="text-[14px] text-ink-2 leading-loose">{description}</p>
+      </header>
+
+      <slot />
+    </article>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .scanline {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(transparent, rgba(74, 222, 128, 0.04), transparent);
+    animation: scan 8s linear infinite;
+    pointer-events: none;
+    z-index: 999;
+  }
+
+  @keyframes scan {
+    0% {
+      top: -2px;
+    }
+    100% {
+      top: 100vh;
+    }
+  }
+
+  .blog-prose :global(h2) {
+    @apply font-display font-bold text-2xl text-ink mt-10 mb-4;
+    letter-spacing: -0.01em;
+  }
+
+  .blog-prose :global(h3) {
+    @apply font-display font-bold text-xl text-ink mt-8 mb-3;
+  }
+
+  .blog-prose :global(p) {
+    @apply text-[14px] text-ink-2 leading-loose mb-4;
+  }
+
+  .blog-prose :global(a) {
+    color: #4ade80;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: opacity 0.15s;
+  }
+
+  .blog-prose :global(a:hover) {
+    opacity: 0.85;
+  }
+
+  .blog-prose :global(ul),
+  .blog-prose :global(ol) {
+    @apply text-[14px] text-ink-2 leading-loose mb-4 pl-6;
+  }
+
+  .blog-prose :global(li) {
+    @apply mb-2;
+  }
+
+  .blog-prose :global(code) {
+    color: #4ade80;
+    font-size: 13px;
+  }
+
+  .blog-prose :global(pre) {
+    @apply bg-bg-3 text-[13px] text-ink-2 p-4 mb-4 overflow-x-auto;
+    border: 1px solid var(--border-green);
+  }
+
+  .blog-prose :global(pre code) {
+    @apply text-ink-2;
+  }
+
+  .blog-prose :global(blockquote) {
+    @apply text-[14px] text-ink-2 italic mb-4 pl-4;
+    border-left: 2px solid var(--border-green-2);
+  }
+
+  .blog-prose :global(hr) {
+    @apply my-8;
+    border-color: var(--border-green);
+  }
+
+  .blog-prose :global(strong) {
+    @apply text-ink font-normal;
+  }
+</style>

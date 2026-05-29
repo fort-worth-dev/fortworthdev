@@ -1,0 +1,66 @@
+---
+const engagements = [
+  {
+    label: '▸ ai tooling adoption',
+    text: 'Team workshops and playbooks for Cursor, Copilot, Claude Code, and custom agent setups — from first install to daily workflow.',
+  },
+  {
+    label: '▸ architecture review',
+    text: 'Honest assessments of .NET codebases, LLM integration points, and agentic design — with actionable recommendations, not slide decks.',
+  },
+  {
+    label: '▸ agentic pipeline design',
+    text: 'End-to-end workflows that connect coding assistants, MCP servers, CI/CD, and production systems so agents actually ship code.',
+  },
+  {
+    label: '▸ dev workflow consulting',
+    text: 'Retainer-style advisory for engineering leaders modernizing how their teams build — AI-augmented without losing rigor.',
+  },
+];
+---
+
+<section
+  class="page-x section-y"
+  id="work"
+  style="border-top: 1px solid var(--border-green);"
+>
+  <div class="flex items-center gap-3 mb-10">
+    <span class="text-[11px] text-green-DEFAULT tracking-[0.15em]">// 02</span>
+    <h2 class="font-display font-bold text-2xl md:text-[28px] text-ink" style="letter-spacing: -0.01em;">Work</h2>
+    <div class="h-px max-w-[120px] flex-1" style="background: var(--border-green);"></div>
+  </div>
+
+  <p class="text-[13px] text-ink-2 max-w-[560px] mb-10 leading-loose">
+    Typical consulting engagements for .NET teams adopting AI-augmented development.
+    Case studies and write-ups on the <a href="/blog/" class="text-green-DEFAULT underline underline-offset-2 transition-opacity duration-150 hover:opacity-80">blog</a>.
+  </p>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl">
+    {engagements.map(({ label, text }) => (
+      <div
+        class="work-card bg-bg-3 p-6 relative overflow-hidden"
+        style="border: 1px solid var(--border-green);"
+      >
+        <div class="text-[11px] text-green-DEFAULT tracking-widest uppercase mb-2.5">{label}</div>
+        <p class="text-[13px] text-ink-2 leading-loose">{text}</p>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .work-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background: #22c55e;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .work-card:hover::before {
+    opacity: 1;
+  }
+</style>

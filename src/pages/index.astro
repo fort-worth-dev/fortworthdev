@@ -1,0 +1,43 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Nav from '@/components/Nav.astro';
+import Hero from '@/components/Hero.astro';
+import StatsBar from '@/components/StatsBar.astro';
+import About from '@/components/About.astro';
+import Work from '@/components/Work.astro';
+import Contact from '@/components/Contact.astro';
+import Footer from '@/components/Footer.astro';
+---
+
+<BaseLayout>
+  <!-- Scanline overlay -->
+  <div class="scanline" aria-hidden="true"></div>
+
+  <Nav />
+  <main>
+    <Hero />
+    <StatsBar />
+    <About />
+    <Work />
+    <Contact />
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .scanline {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(transparent, rgba(74, 222, 128, 0.04), transparent);
+    animation: scan 8s linear infinite;
+    pointer-events: none;
+    z-index: 999;
+  }
+  @keyframes scan {
+    0%  { top: -2px; }
+    100% { top: 100vh; }
+  }
+</style>
