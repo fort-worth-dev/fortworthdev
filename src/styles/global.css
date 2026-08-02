@@ -170,7 +170,7 @@
     @apply opacity-100;
   }
 
-  /* Listing rows (engagements, posts). Same restraint as .card — the accent
+  /* Listing rows (projects, posts). Same restraint as .card — the accent
      only appears on the left edge, and only on hover. */
   .row:hover {
     @apply bg-surface-1;

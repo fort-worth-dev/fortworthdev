@@ -39,6 +39,9 @@ function formatDate(date: Date) {
               >
                 {formatDate(post.data.date)}
               </time>
+              <span class="text-body text-term-cyan shrink-0" aria-hidden="true">
+                {post.data.category}/
+              </span>
               <span class="text-body text-ink-0 truncate row-title transition-colors duration-150">
                 {post.data.title}
               </span>

@@ -1,10 +1,18 @@
 ---
 // `tone` maps each value onto its syntax role: amber for numerals,
-// cyan for links/handles, ink-0 for plain text.
+// cyan for links/handles. Post and project counts are computed at build
+// time so the strip grows with the site instead of holding filler.
+import { getCollection } from 'astro:content';
+import { projects } from '@/data/projects';
+
+const posts = await getCollection('blog', ({ data }) =>
+  import.meta.env.PROD ? !data.draft : true
+);
+
 const stats = [
   { num: '25+', label: 'Years .NET', tone: 'text-term-amber' },
-  { num: 'AI-first', label: 'Development approach', tone: 'text-ink-0' },
-  { num: 'FTW', label: 'Fort Worth, TX', tone: 'text-ink-0' },
+  { num: String(posts.length), label: 'Posts', tone: 'text-term-amber', href: '/blog/' },
+  { num: String(projects.length), label: 'Projects', tone: 'text-term-amber', href: '/#projects' },
   {
     num: '@fortworthdev',
     label: 'on X / Twitter',
@@ -22,8 +30,8 @@ const stats = [
       {href ? (
         <a
           href={href}
-          target="_blank"
-          rel="noopener noreferrer"
+          target={href.startsWith('http') ? '_blank' : undefined}
+          rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
           class={`${tone} text-stat font-bold truncate transition-opacity duration-150 hover:opacity-80`}
           style="letter-spacing: -0.03em;"
         >

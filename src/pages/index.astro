@@ -6,7 +6,7 @@ import Hero from '@/components/Hero.astro';
 import StatsBar from '@/components/StatsBar.astro';
 import About from '@/components/About.astro';
 import Skills from '@/components/Skills.astro';
-import Work from '@/components/Work.astro';
+import Projects from '@/components/Projects.astro';
 import Contact from '@/components/Contact.astro';
 import PostList from '@/components/PostList.astro';
 
@@ -14,7 +14,7 @@ const sections = [
   { id: 'whoami', label: 'whoami' },
   { id: 'about', label: 'about' },
   { id: 'skills', label: 'specializations' },
-  { id: 'engagements', label: 'engagements' },
+  { id: 'projects', label: 'projects' },
   { id: 'contact', label: 'contact' },
   { id: 'writing', label: 'writing' },
 ];
@@ -63,13 +63,13 @@ const posts = (
     </Pane>
 
     <Pane
-      id="engagements"
-      cmd="ls ./engagements"
-      label="engagements"
+      id="projects"
+      cmd="ls ./projects"
+      label="projects"
       class="lg:col-span-3 border-b border-line-1 lg:border-r"
       flush
     >
-      <Work />
+      <Projects />
     </Pane>
 
     <Pane id="contact" cmd="cat contact.json" label="contact" class="lg:col-span-2 border-b border-line-1">

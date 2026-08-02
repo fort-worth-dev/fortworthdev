@@ -5,9 +5,10 @@ interface Props {
   title: string;
   description: string;
   date: Date;
+  category?: string;
 }
 
-const { title, description, date } = Astro.props;
+const { title, description, date, category } = Astro.props;
 
 const formattedDate = date.toLocaleDateString('en-US', {
   year: 'numeric',
@@ -26,9 +27,12 @@ const formattedDate = date.toLocaleDateString('en-US', {
         ← ls ../writing
       </a>
 
-      <time datetime={date.toISOString()} class="block text-label text-term-amber tracking-[0.15em]">
-        {formattedDate}
-      </time>
+      <div class="flex items-baseline gap-3">
+        <time datetime={date.toISOString()} class="text-label text-term-amber tracking-[0.15em]">
+          {formattedDate}
+        </time>
+        {category && <span class="text-label text-term-cyan tracking-wide">{category}/</span>}
+      </div>
       <h1
         class="text-ink-0 text-3xl md:text-4xl font-extrabold mt-3 mb-4"
         style="letter-spacing: -0.035em;"

@@ -1,0 +1,54 @@
+---
+// Rendered as directory listing rows rather than cards — the pane header is
+// `ls ./projects`, so the body should look like what ls prints.
+import { projects } from '@/data/projects';
+
+// Split a string on the tool names so each can be wrapped in its own span.
+function tokenize(text: string, tools: string[]) {
+  if (tools.length === 0) return [{ text, isTool: false }];
+  const pattern = new RegExp(
+    `(${tools.map((t) => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})`,
+    'g'
+  );
+  return text
+    .split(pattern)
+    .filter(Boolean)
+    .map((part) => ({ text: part, isTool: tools.includes(part) }));
+}
+---
+
+<ul class="list-none">
+  {projects.map(({ name, description, status, tools, href }) => (
+    <li class="row px-4 md:px-6 py-4 border-b border-line-1 last:border-b-0 transition-colors duration-150">
+      <div class="flex items-baseline gap-3 mb-1.5 min-w-0">
+        <span class="text-micro text-ink-3 shrink-0 hidden sm:inline tabular-nums" aria-hidden="true">
+          drwxr-xr-x
+        </span>
+        {href ? (
+          <a
+            href={href}
+            target={href.startsWith('http') ? '_blank' : undefined}
+            rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
+            class="text-body text-term-cyan truncate underline underline-offset-2 decoration-line-2 transition-colors duration-150 hover:decoration-current"
+          >
+            {name}/
+          </a>
+        ) : (
+          <span class="text-body text-term-cyan truncate">{name}/</span>
+        )}
+        <span
+          class={`text-micro tracking-widest uppercase shrink-0 ${
+            status === 'building' ? 'text-term-green' : 'text-ink-2'
+          }`}
+        >
+          {status}
+        </span>
+      </div>
+      <p class="text-body text-ink-1 sm:pl-[7.5rem]">
+        {tokenize(description, tools).map(({ text: part, isTool }) =>
+          isTool ? <span class="text-term-violet">{part}</span> : part
+        )}
+      </p>
+    </li>
+  ))}
+</ul>
