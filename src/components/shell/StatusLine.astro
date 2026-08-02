@@ -4,6 +4,7 @@ const path = Astro.url.pathname;
 const buffers = [
   { n: 1, href: '/', label: 'home', active: path === '/' },
   { n: 2, href: '/blog/', label: 'writing', active: path.startsWith('/blog') },
+  { n: 3, href: '/resources/', label: 'resources', active: path.startsWith('/resources') },
 ];
 ---
 

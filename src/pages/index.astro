@@ -9,6 +9,7 @@ import Skills from '@/components/Skills.astro';
 import Projects from '@/components/Projects.astro';
 import Contact from '@/components/Contact.astro';
 import PostList from '@/components/PostList.astro';
+import { resourceTypes, countOf } from '@/data/resources';
 
 const sections = [
   { id: 'whoami', label: 'whoami' },
@@ -17,6 +18,7 @@ const sections = [
   { id: 'projects', label: 'projects' },
   { id: 'contact', label: 'contact' },
   { id: 'writing', label: 'writing' },
+  { id: 'resources', label: 'resources' },
 ];
 
 const posts = (
@@ -80,10 +82,36 @@ const posts = (
       id="writing"
       cmd="ls -la ./writing"
       label="writing"
-      class="lg:col-span-5 border-b border-line-1"
+      class="lg:col-span-3 border-b border-line-1 lg:border-r"
       flush
     >
       <PostList posts={posts} />
+    </Pane>
+
+    <Pane
+      id="resources"
+      cmd="ls ./resources"
+      label="resources"
+      class="lg:col-span-2 border-b border-line-1"
+      flush
+    >
+      <ul class="list-none">
+        {resourceTypes.map(({ type, dir, blurb }) => (
+          <li class="row border-b border-line-1 last:border-b-0 transition-colors duration-150">
+            <a href={`/resources/${dir}/`} class="block px-4 md:px-6 py-3.5 no-underline">
+              <div class="flex items-baseline gap-3 min-w-0">
+                <span class="text-meta text-term-amber shrink-0 tabular-nums">
+                  {String(countOf(type)).padStart(2, '0')}
+                </span>
+                <span class="text-body text-term-cyan truncate row-title transition-colors duration-150">
+                  {dir}/
+                </span>
+              </div>
+              <p class="text-meta text-ink-2 mt-1">{blurb}</p>
+            </a>
+          </li>
+        ))}
+      </ul>
     </Pane>
   </div>
 

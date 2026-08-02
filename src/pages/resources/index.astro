@@ -1,0 +1,70 @@
+---
+import ShellLayout from '@/layouts/ShellLayout.astro';
+import Pane from '@/components/shell/Pane.astro';
+import ResourceList from '@/components/ResourceList.astro';
+import { resources, resourceTypes, countOf } from '@/data/resources';
+
+const sections = [
+  { id: 'resources', label: 'resources' },
+  { id: 'recent', label: 'recently added' },
+];
+
+const recent = [...resources].sort((a, b) => b.added.localeCompare(a.added)).slice(0, 5);
+---
+
+<ShellLayout
+  title="Resources — Fort Worth Dev"
+  description="Curated videos, repos, and articles for developers learning AI coding assistants and agentic workflow development. Annotated, dated, and re-checked."
+  sections={sections}
+>
+  <Pane id="resources" cmd="ls -la ./resources" label="resources" class="border-b border-line-1">
+    <p class="text-body text-ink-1 measure">
+      Things I've actually used, with a note on what each one is good for. Every entry carries the
+      date it was added and the date the link was last verified — a curated list nobody has
+      re-checked in a year is worse than no list at all.
+    </p>
+  </Pane>
+
+  <div class="border-b border-line-1">
+    <ul class="list-none">
+      {resourceTypes.map(({ type, dir, blurb }) => (
+        <li class="row border-b border-line-1 last:border-b-0 transition-colors duration-150">
+          <a href={`/resources/${dir}/`} class="block px-4 md:px-6 py-4 no-underline">
+            <div class="flex items-baseline gap-3 min-w-0">
+              <span
+                class="text-micro text-ink-3 shrink-0 hidden sm:inline tabular-nums"
+                aria-hidden="true"
+              >
+                drwxr-xr-x
+              </span>
+              <span class="text-meta text-term-amber shrink-0 tabular-nums">
+                {String(countOf(type)).padStart(2, '0')}
+              </span>
+              <span class="text-body text-term-cyan truncate row-title transition-colors duration-150">
+                {dir}/
+              </span>
+            </div>
+            <p class="text-body text-ink-1 sm:pl-[7.5rem] mt-1.5">{blurb}</p>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <Pane
+    id="recent"
+    cmd="ls -lat ./resources | head -5"
+    label="recently added"
+    class="border-b border-line-1"
+    flush
+  >
+    <ResourceList
+      items={recent}
+      emptyNote="Nothing here yet — the lists above fill up as the notes get written."
+    />
+  </Pane>
+
+  <p class="px-4 md:px-6 py-4 text-micro text-ink-3 tracking-widest">
+    © {new Date().getFullYear()} fortworthdev.com — Fort Worth, Texas
+  </p>
+</ShellLayout>

@@ -6,6 +6,7 @@ import StatusLine from '@/components/shell/StatusLine.astro';
 import Rail from '@/components/shell/Rail.astro';
 import CommandPalette from '@/components/shell/CommandPalette.astro';
 import HelpOverlay from '@/components/shell/HelpOverlay.astro';
+import { resources, resourceTypes } from '@/data/resources';
 
 interface Props {
   title?: string;
@@ -28,6 +29,15 @@ const paletteItems = [
   { href: '/#contact', label: 'contact', kind: 'section' },
   { href: '/blog/', label: 'writing', kind: 'page' },
   ...posts.map((p) => ({ href: `/blog/${p.slug}/`, label: p.data.title, kind: 'post' })),
+  { href: '/resources/', label: 'resources', kind: 'page' },
+  ...resourceTypes.map(({ dir }) => ({
+    href: `/resources/${dir}/`,
+    label: `resources/${dir}`,
+    kind: 'page',
+  })),
+  // Every curated entry is reachable from the palette — this is the payoff of
+  // keeping resources as data rather than hand-written pages.
+  ...resources.map((r) => ({ href: r.url, label: r.title, kind: r.type, external: true })),
   { href: 'https://x.com/fortworthdev', label: '@fortworthdev on X', kind: 'link', external: true },
   {
     href: 'https://github.com/fortworthdev',
@@ -215,6 +225,9 @@ const paletteItems = [
       } else if (e.key === 'b') {
         e.preventDefault();
         location.href = '/blog/';
+      } else if (e.key === 'r') {
+        e.preventDefault();
+        location.href = '/resources/';
       } else if (e.key === 'g') {
         e.preventDefault();
         current = 0;

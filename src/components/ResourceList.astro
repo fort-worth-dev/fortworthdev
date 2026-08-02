@@ -1,0 +1,68 @@
+---
+// Rendered as `ls -la` output — the pane header supplies the command, so the
+// body is just what the command printed. Shared by the resources index and
+// each per-type listing.
+import type { Resource } from '@/data/resources';
+
+interface Props {
+  items: Resource[];
+  /** Show the `track/` column. Off where the whole page is one track. */
+  showTrack?: boolean;
+  /** Message for an empty list — an empty list is a valid state, not a bug. */
+  emptyNote?: string;
+}
+
+const { items, showTrack = true, emptyNote } = Astro.props;
+
+function host(url: string) {
+  return new URL(url).hostname.replace(/^www\./, '');
+}
+---
+
+{
+  items.length === 0 ? (
+    <div class="px-4 md:px-6 py-6">
+      <p class="text-body text-ink-3">
+        <span class="text-term-green" aria-hidden="true">$</span> total 0
+      </p>
+      {emptyNote && <p class="text-body text-ink-2 measure mt-3">{emptyNote}</p>}
+    </div>
+  ) : (
+    <ul class="list-none">
+      {items.map((r) => (
+        <li class="row px-4 md:px-6 py-4 border-b border-line-1 last:border-b-0 transition-colors duration-150">
+          <div class="flex items-baseline gap-3 min-w-0">
+            <span
+              class="text-micro text-ink-3 shrink-0 hidden md:inline tabular-nums"
+              aria-hidden="true"
+            >
+              -rw-r--r--
+            </span>
+            <time datetime={r.added} class="text-meta text-term-amber shrink-0 tabular-nums">
+              {r.added}
+            </time>
+            {showTrack && (
+              <span class="text-body text-term-cyan shrink-0 hidden sm:inline" aria-hidden="true">
+                {r.track}/
+              </span>
+            )}
+            <a
+              href={r.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-body text-ink-0 row-title truncate underline underline-offset-2 decoration-line-2 transition-colors duration-150 hover:decoration-current"
+            >
+              {r.title}
+            </a>
+          </div>
+
+          <p class="text-body text-ink-1 mt-1.5 md:pl-[7.5rem]">{r.note}</p>
+
+          <p class="text-micro text-ink-3 mt-1.5 md:pl-[7.5rem] tabular-nums">
+            {r.source} · {host(r.url)} · checked {r.checked}
+          </p>
+        </li>
+      ))}
+    </ul>
+  )
+}

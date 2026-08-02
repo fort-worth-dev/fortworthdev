@@ -1,0 +1,75 @@
+---
+import ShellLayout from '@/layouts/ShellLayout.astro';
+import Pane from '@/components/shell/Pane.astro';
+import ResourceList from '@/components/ResourceList.astro';
+import { byType, resourceTypes } from '@/data/resources';
+
+export function getStaticPaths() {
+  return resourceTypes.map(({ type, dir, blurb }) => ({
+    params: { type: dir },
+    props: { type, dir, blurb },
+  }));
+}
+
+interface Props {
+  type: 'video' | 'repo' | 'article';
+  dir: string;
+  blurb: string;
+}
+
+const { type, dir, blurb } = Astro.props;
+const items = byType(type);
+
+const sections = [{ id: 'list', label: dir }];
+
+// Empty is a legitimate state here — say why rather than looking broken.
+const emptyNotes: Record<string, string> = {
+  videos:
+    'Nothing yet, on purpose. A list of "most useful videos" is only worth reading if every entry is one I actually sat through and would defend, so this fills up at the speed I watch things — not the speed I can find links.',
+  repos: 'Nothing yet — repos land here once I have read enough of one to have an opinion.',
+  articles: 'Nothing yet — articles land here once one has changed how I work.',
+};
+---
+
+<ShellLayout
+  title={`${dir} — Resources — Fort Worth Dev`}
+  description={`${blurb} Curated and annotated for developers learning AI coding assistants and agentic workflow development.`}
+  sections={sections}
+>
+  <Pane id="list" cmd={`ls -la ./resources/${dir}`} label={dir} class="border-b border-line-1">
+    <a
+      href="/resources/"
+      class="inline-block text-label text-ink-2 tracking-wide mb-5 transition-colors duration-150 hover:text-ink-0"
+    >
+      ← ls ../resources
+    </a>
+    <p class="text-body text-ink-1 measure">{blurb}</p>
+    {/* The empty state prints its own `total 0`, so don't say it twice. */}
+    {items.length > 0 && <p class="text-meta text-ink-3 mt-2 tabular-nums">total {items.length}</p>}
+  </Pane>
+
+  <div class="border-b border-line-1">
+    <ResourceList items={items} emptyNote={emptyNotes[dir]} />
+  </div>
+
+  <nav aria-label="Other resource lists" class="px-4 md:px-6 py-4 border-b border-line-1">
+    <ul class="flex flex-wrap gap-x-5 gap-y-2 list-none">
+      {resourceTypes
+        .filter((t) => t.dir !== dir)
+        .map((t) => (
+          <li>
+            <a
+              href={`/resources/${t.dir}/`}
+              class="text-label text-term-cyan tracking-wide underline underline-offset-2 decoration-line-2 transition-colors duration-150 hover:decoration-current"
+            >
+              ../{t.dir}/
+            </a>
+          </li>
+        ))}
+    </ul>
+  </nav>
+
+  <p class="px-4 md:px-6 py-4 text-micro text-ink-3 tracking-widest">
+    © {new Date().getFullYear()} fortworthdev.com — Fort Worth, Texas
+  </p>
+</ShellLayout>
