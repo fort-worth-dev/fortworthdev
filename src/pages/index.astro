@@ -1,43 +1,93 @@
 ---
-import BaseLayout from '@/layouts/BaseLayout.astro';
-import Nav from '@/components/Nav.astro';
+import { getCollection } from 'astro:content';
+import ShellLayout from '@/layouts/ShellLayout.astro';
+import Pane from '@/components/shell/Pane.astro';
 import Hero from '@/components/Hero.astro';
 import StatsBar from '@/components/StatsBar.astro';
 import About from '@/components/About.astro';
+import Skills from '@/components/Skills.astro';
 import Work from '@/components/Work.astro';
 import Contact from '@/components/Contact.astro';
-import Footer from '@/components/Footer.astro';
+import PostList from '@/components/PostList.astro';
+
+const sections = [
+  { id: 'whoami', label: 'whoami' },
+  { id: 'about', label: 'about' },
+  { id: 'skills', label: 'specializations' },
+  { id: 'engagements', label: 'engagements' },
+  { id: 'contact', label: 'contact' },
+  { id: 'writing', label: 'writing' },
+];
+
+const posts = (
+  await getCollection('blog', ({ data }) => (import.meta.env.PROD ? !data.draft : true))
+)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 4);
 ---
 
-<BaseLayout>
-  <!-- Scanline overlay -->
-  <div class="scanline" aria-hidden="true"></div>
+<ShellLayout sections={sections}>
+  <!-- Panes tile on a 5-column grid so widths vary deliberately: full-bleed
+       hero, then 3/2 splits that give each pane a different rhythm. -->
+  <div class="grid grid-cols-1 lg:grid-cols-5">
+    <Pane
+      id="whoami"
+      cmd="whoami"
+      label="whoami"
+      heading={false}
+      class="lg:col-span-5 border-b border-line-1"
+    >
+      <Hero />
+    </Pane>
 
-  <Nav />
-  <main>
-    <Hero />
-    <StatsBar />
-    <About />
-    <Work />
-    <Contact />
-  </main>
-  <Footer />
-</BaseLayout>
+    <div class="lg:col-span-5 border-b border-line-1">
+      <StatsBar />
+    </div>
 
-<style>
-  .scanline {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(transparent, rgba(74, 222, 128, 0.04), transparent);
-    animation: scan 8s linear infinite;
-    pointer-events: none;
-    z-index: 999;
-  }
-  @keyframes scan {
-    0%  { top: -2px; }
-    100% { top: 100vh; }
-  }
-</style>
+    <Pane
+      id="about"
+      cmd="cat about.md"
+      label="about"
+      class="lg:col-span-3 border-b border-line-1 lg:border-r"
+    >
+      <About />
+    </Pane>
+
+    <Pane
+      id="skills"
+      cmd="./skills.sh"
+      label="specializations"
+      class="lg:col-span-2 border-b border-line-1"
+    >
+      <Skills />
+    </Pane>
+
+    <Pane
+      id="engagements"
+      cmd="ls ./engagements"
+      label="engagements"
+      class="lg:col-span-3 border-b border-line-1 lg:border-r"
+      flush
+    >
+      <Work />
+    </Pane>
+
+    <Pane id="contact" cmd="cat contact.json" label="contact" class="lg:col-span-2 border-b border-line-1">
+      <Contact />
+    </Pane>
+
+    <Pane
+      id="writing"
+      cmd="ls -la ./writing"
+      label="writing"
+      class="lg:col-span-5 border-b border-line-1"
+      flush
+    >
+      <PostList posts={posts} />
+    </Pane>
+  </div>
+
+  <p class="px-4 md:px-6 py-4 text-micro text-ink-3 tracking-widest">
+    © {new Date().getFullYear()} fortworthdev.com — Fort Worth, Texas
+  </p>
+</ShellLayout>

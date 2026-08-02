@@ -1,0 +1,46 @@
+---
+interface Props {
+  items: { href: string; label: string; kind: string; external?: boolean }[];
+}
+
+const { items } = Astro.props;
+---
+
+<!-- Native <dialog> so focus trapping and Esc-to-close come from the platform. -->
+<dialog id="palette" class="palette" aria-label="Command palette">
+  <div class="flex items-center gap-2 px-4 py-3 border-b border-line-1">
+    <span class="text-term-green select-none" aria-hidden="true">$</span>
+    <input
+      id="palette-input"
+      type="text"
+      autocomplete="off"
+      spellcheck="false"
+      placeholder="jump to…"
+      aria-label="Filter destinations"
+      class="flex-1 min-w-0 bg-transparent border-0 outline-none text-body text-ink-0 placeholder:text-ink-3"
+    />
+    <kbd class="kbd hidden sm:inline-block">esc</kbd>
+  </div>
+
+  <ul id="palette-list" class="list-none max-h-[45vh] overflow-y-auto py-1.5" role="listbox">
+    {items.map(({ href, label, kind, external }) => (
+      <li>
+        <a
+          href={href}
+          data-item
+          data-search={label.toLowerCase()}
+          target={external ? '_blank' : undefined}
+          rel={external ? 'noopener noreferrer' : undefined}
+          role="option"
+          class="palette-item flex items-center justify-between gap-4 px-4 py-2 text-body text-ink-1 no-underline"
+        >
+          <span class="truncate">{label}</span>
+          <span class="text-micro text-ink-3 shrink-0">{kind}</span>
+        </a>
+      </li>
+    ))}
+    <li id="palette-empty" hidden class="px-4 py-3 text-body text-ink-3" aria-live="polite">
+      no matches
+    </li>
+  </ul>
+</dialog>

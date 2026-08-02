@@ -1,86 +1,27 @@
 ---
-// No props needed — content is static for now.
-// Could be driven by a CMS or frontmatter later.
+// Pane content only — the surrounding <section> and header come from Pane.astro.
 ---
 
-<section class="page-x pt-12 md:pt-20 pb-10 md:pb-16 max-w-4xl relative">
-  <div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-meta text-green-DEFAULT tracking-widest mb-5">
-    <span class="font-bold">{'>'}</span>
+<div class="py-4 md:py-10">
+  <div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-label text-ink-2 tracking-widest uppercase mb-5">
     AI + .NET Engineer — Fort Worth, TX
-    <span class="cursor-blink inline-block w-2 h-4 bg-green-DEFAULT align-middle"></span>
+    <span class="cursor-block"></span>
   </div>
 
-  <h1 class="font-display font-extrabold leading-none tracking-tight text-ink mb-1.5"
-      style="font-size: clamp(48px, 8vw, 76px); letter-spacing: -0.02em;">
-    Fort<span class="text-green-DEFAULT">Worth</span><br />Dev
-  </h1>
+  <h1 class="text-display text-ink-0 mb-3">FortWorthDev</h1>
 
-  <p class="font-display text-ink-2 mb-7"
-     style="font-size: clamp(18px, 3vw, 24px); letter-spacing: -0.01em;">
-    Building the agentic web, one pipeline at a time.
-  </p>
+  <p class="text-lead text-ink-2 mb-7">Building the agentic web, one pipeline at a time.</p>
 
-  <p class="text-body-lg text-ink-2 max-w-[560px] leading-loose mb-10"
-     style="border-left: 2px solid var(--border-green-2); padding-left: 16px;">
-    25 years of <strong class="text-green-DEFAULT font-normal">.NET experience</strong> meets the era of
-    AI coding assistants. I help teams ship faster with
-    <strong class="text-green-DEFAULT font-normal">AI-augmented workflows</strong>, agentic architectures,
+  <p class="text-body text-ink-1 measure mb-10 pl-4 border-l-2 border-line-2">
+    <span class="text-term-amber">25 years</span> of
+    <span class="text-term-violet">.NET</span> experience meets the era of AI coding assistants. I
+    help teams ship faster with
+    <strong class="text-ink-0 font-normal">AI-augmented workflows</strong>, agentic architectures,
     and battle-tested engineering practices.
   </p>
 
   <div class="flex gap-4 flex-wrap">
-    <a href="#contact" class="btn-primary">// hire me</a>
-    <a href="#about" class="btn-secondary">read more →</a>
+    <a href="#contact" class="btn-solid">start a conversation</a>
+    <a href="#about" class="btn-ghost">read more →</a>
   </div>
-</section>
-
-<style>
-  .cursor-blink {
-    animation: blink 1.1s step-end infinite;
-  }
-  @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
-  }
-
-  .btn-primary {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 13px 26px;
-    background: #4ade80;
-    color: #0a0c0e;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.9375rem;
-    font-weight: 700;
-    text-decoration: none;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    transition: opacity 0.15s, transform 0.1s;
-  }
-  .btn-primary:hover {
-    opacity: 0.88;
-    transform: translateY(-1px);
-  }
-
-  .btn-secondary {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 13px 26px;
-    background: transparent;
-    color: #4ade80;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.9375rem;
-    font-weight: 400;
-    text-decoration: none;
-    border: 1px solid var(--border-green-2);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    transition: background 0.15s, transform 0.1s;
-  }
-  .btn-secondary:hover {
-    background: var(--green-glow);
-    transform: translateY(-1px);
-  }
-</style>
+</div>

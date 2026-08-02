@@ -1,30 +1,27 @@
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,700;1,400&family=Syne:wght@400;700;800&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --green-glow: rgba(74, 222, 128, 0.12);
-    --border-green: rgba(80, 180, 120, 0.18);
-    --border-green-2: rgba(80, 180, 120, 0.35);
+    /* Mono sets wider than sans at the same px, so the whole scale runs
+       one notch below a typical sans scale. */
+    --fs-micro: 0.6875rem; /* 11px — decorative chrome */
+    --fs-label: 0.75rem; /* 12px — labels, nav */
+    --fs-meta: 0.8125rem; /* 13px — metadata */
+    --fs-body: 0.96875rem; /* 15.5px */
+    --fs-lead: 1.0625rem; /* 17px — hero blurb */
+    --fs-stat: 1.625rem; /* 26px */
 
-    /* Readable type scale — bumped for comfort, larger on mobile */
-    --text-label: 0.875rem;     /* 14px */
-    --text-meta: 0.9375rem;     /* 15px */
-    --text-body: 1.0625rem;     /* 17px */
-    --text-body-lg: 1.125rem;   /* 18px */
-    --text-stat: 1.75rem;       /* 28px */
+    /* Mono needs a narrower measure and looser leading than sans. */
+    --measure: 62ch;
+    --leading-prose: 1.75;
   }
 
   @media (min-width: 768px) {
     :root {
-      --text-label: 0.8125rem;    /* 13px */
-      --text-meta: 0.875rem;      /* 14px */
-      --text-body: 1rem;          /* 16px */
-      --text-body-lg: 1.0625rem;  /* 17px */
-      --text-stat: 1.625rem;      /* 26px */
+      --fs-body: 0.9375rem; /* 15px */
+      --fs-stat: 1.75rem; /* 28px */
     }
   }
 
@@ -33,14 +30,154 @@
   }
 
   body {
-    @apply bg-bg text-ink font-mono;
-    font-size: var(--text-body-lg);
-    line-height: 1.65;
+    @apply bg-canvas text-ink-1 font-mono;
+    font-size: var(--fs-body);
+    line-height: var(--leading-prose);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Clears the fixed status line, which only exists at md and up. */
+  @media (min-width: 768px) {
+    body {
+      padding-bottom: 2rem;
+    }
+  }
+
+  /* Phosphor texture: static, not animated. A sweeping bar reads as a gimmick;
+     a fixed grain reads as a screen. */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 999;
+    background: repeating-linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.015) 0px,
+      rgba(255, 255, 255, 0.015) 1px,
+      transparent 1px,
+      transparent 3px
+    );
   }
 
   ::selection {
-    background: rgba(74, 222, 128, 0.25);
-    color: #4ade80;
+    background: rgba(74, 222, 128, 0.22);
+    color: #f1f5f9;
+  }
+
+  :focus-visible {
+    outline: 2px solid theme('colors.term.green');
+    outline-offset: 3px;
+    border-radius: 1px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* Shared by Hero and 404 — previously duplicated verbatim in both. */
+@layer components {
+  .btn {
+    @apply inline-flex items-center gap-2 px-6 py-3 no-underline uppercase transition-transform duration-100;
+    font-size: var(--fs-label);
+    letter-spacing: 0.08em;
+  }
+
+  .btn-solid {
+    @apply btn bg-term-green font-bold;
+    color: #06301a;
+  }
+  .btn-solid:hover {
+    @apply -translate-y-px;
+    opacity: 0.9;
+  }
+
+  .btn-ghost {
+    @apply btn border border-line-2 text-ink-1;
+  }
+  .btn-ghost:hover {
+    @apply -translate-y-px border-line-3 text-ink-0;
+  }
+
+  .skip-link {
+    @apply sr-only;
+  }
+  .skip-link:focus-visible {
+    @apply not-sr-only fixed top-2 left-2 z-50 px-4 py-2 bg-surface-3 text-ink-0 border border-term-green;
+    font-size: var(--fs-label);
+  }
+
+  /* Panes are focus targets for j/k, so they must clear the sticky status bar
+     when scrolled to. */
+  .pane {
+    scroll-margin-top: 53px;
+  }
+  .pane:focus {
+    outline: none;
+  }
+
+  .kbd {
+    @apply inline-block px-1.5 py-px border border-line-2 text-ink-2 align-middle;
+    font-family: inherit;
+    font-size: var(--fs-micro);
+    line-height: 1.4;
+  }
+
+  .rail-link.is-active {
+    @apply text-term-green;
+    border-left-color: theme('colors.term.green');
+  }
+
+  .palette {
+    @apply w-[min(34rem,calc(100vw-2rem))] p-0 mx-auto bg-surface-2 border border-line-2 text-ink-1;
+    margin-top: 16vh;
+  }
+  .palette::backdrop {
+    background: rgba(10, 12, 14, 0.72);
+  }
+  .palette-item.is-active,
+  .palette-item:hover {
+    @apply bg-surface-3 text-ink-0;
+  }
+  .palette-item.is-active {
+    box-shadow: inset 2px 0 0 theme('colors.term.green');
+  }
+
+  /* Shared by the About and Work grids. Green appears only on hover — the
+     resting border stays neutral. Requires `relative overflow-hidden`. */
+  .card {
+    @apply transition-colors duration-150;
+  }
+  .card::before {
+    content: '';
+    @apply absolute top-0 left-0 h-full w-0.5 bg-term-green opacity-0 transition-opacity duration-200;
+  }
+  .card:hover {
+    @apply border-line-2;
+  }
+  .card:hover::before {
+    @apply opacity-100;
+  }
+
+  /* Listing rows (engagements, posts). Same restraint as .card — the accent
+     only appears on the left edge, and only on hover. */
+  .row:hover {
+    @apply bg-surface-1;
+    box-shadow: inset 2px 0 0 theme('colors.term.green');
+  }
+  .row:hover .row-title {
+    @apply text-term-cyan;
   }
 }
 
@@ -53,41 +190,59 @@
     @apply py-12 md:py-[72px];
   }
 
-  .border-green-dim {
-    border-color: var(--border-green);
-  }
-  .border-green-mid {
-    border-color: var(--border-green-2);
-  }
-  .bg-green-glow {
-    background-color: var(--green-glow);
-  }
-  .text-green-accent {
-    color: #4ade80;
+  .measure {
+    max-width: var(--measure);
   }
 
+  .text-micro {
+    font-size: var(--fs-micro);
+  }
   .text-label {
-    font-size: var(--text-label);
+    font-size: var(--fs-label);
   }
-
   .text-meta {
-    font-size: var(--text-meta);
+    font-size: var(--fs-meta);
   }
-
   .text-body {
-    font-size: var(--text-body);
+    font-size: var(--fs-body);
   }
-
-  .text-body-lg {
-    font-size: var(--text-body-lg);
+  .text-lead {
+    font-size: var(--fs-lead);
   }
-
   .text-stat {
-    font-size: var(--text-stat);
+    font-size: var(--fs-stat);
+  }
+
+  /* Display type is mono too — Syne is gone. Tight tracking keeps mono from
+     reading as loose at large sizes. */
+  .text-display {
+    font-size: clamp(1.875rem, 7vw, 4rem);
+    line-height: 1.02;
+    letter-spacing: -0.045em;
+    font-weight: 800;
   }
 
   .text-section-title {
-    @apply font-display font-bold text-3xl md:text-[2rem] text-ink;
-    letter-spacing: -0.01em;
+    @apply text-ink-0;
+    font-size: 1.375rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .cursor-block {
+    @apply inline-block bg-term-green align-middle;
+    width: 0.55em;
+    height: 1.05em;
+    animation: blink 1.1s step-end infinite;
+  }
+
+  @keyframes blink {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
   }
 }

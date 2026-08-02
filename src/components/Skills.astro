@@ -1,0 +1,27 @@
+---
+// Rendered as command output — the pane header supplies the prompt, so this is
+// just what the command printed.
+const skills = [
+  'AI Coding Assistants (Claude, Copilot, Cursor)',
+  'Agentic Architecture & MCP integration',
+  '.NET / C# (25 yrs, all versions)',
+  'LLM Pipeline Design & RAG systems',
+  'Dev Workflow Consulting',
+];
+---
+
+<div class="text-body">
+  <ul class="list-none flex flex-col gap-1.5 mb-5">
+    {skills.map((skill) => (
+      <li class="text-ink-1 flex gap-2.5">
+        <span class="text-ink-3 select-none shrink-0" aria-hidden="true">→</span>
+        <span>{skill}</span>
+      </li>
+    ))}
+  </ul>
+
+  <div class="text-ink-3">
+    <span class="text-term-green" aria-hidden="true">$</span>
+    <span class="cursor-block ml-1"></span>
+  </div>
+</div>

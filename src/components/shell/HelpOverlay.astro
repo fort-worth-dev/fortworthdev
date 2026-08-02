@@ -1,0 +1,35 @@
+---
+const bindings = [
+  { keys: ['j'], desc: 'next pane' },
+  { keys: ['k'], desc: 'previous pane' },
+  { keys: ['g', 'g'], desc: 'top of page' },
+  { keys: ['G'], desc: 'bottom of page' },
+  { keys: ['g', 'h'], desc: 'go home' },
+  { keys: ['g', 'b'], desc: 'go to writing' },
+  { keys: ['/'], desc: 'open command palette' },
+  { keys: ['?'], desc: 'toggle this help' },
+  { keys: ['esc'], desc: 'close' },
+];
+---
+
+<dialog id="help" class="palette" aria-label="Keyboard shortcuts">
+  <div class="flex items-center justify-between gap-4 px-4 py-3 border-b border-line-1">
+    <span class="text-label text-ink-2 tracking-wide">
+      <span class="text-term-green" aria-hidden="true">$</span> man fortworthdev
+    </span>
+    <kbd class="kbd">esc</kbd>
+  </div>
+
+  <dl class="px-4 py-3 grid grid-cols-[auto_1fr] gap-x-5 gap-y-2 items-center">
+    {bindings.map(({ keys, desc }) => (
+      <>
+        <dt class="flex gap-1 justify-end">
+          {keys.map((k) => (
+            <kbd class="kbd">{k}</kbd>
+          ))}
+        </dt>
+        <dd class="text-body text-ink-1 m-0">{desc}</dd>
+      </>
+    ))}
+  </dl>
+</dialog>

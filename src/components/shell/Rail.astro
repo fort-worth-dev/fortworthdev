@@ -1,0 +1,31 @@
+---
+// Section index down the left edge. Real anchors, so it works without JS;
+// the client script adds the active marker as you scroll.
+interface Props {
+  sections: { id: string; label: string }[];
+}
+
+const { sections } = Astro.props;
+---
+
+<nav
+  aria-label="Sections"
+  class="hidden lg:block border-r border-line-1 shrink-0"
+  style="width: 3.25rem;"
+>
+  <ol class="sticky top-[53px] list-none py-6 flex flex-col gap-2">
+    {sections.map(({ id, label }, i) => (
+      <li>
+        <a
+          href={`#${id}`}
+          data-rail={id}
+          title={label}
+          class="rail-link block text-micro text-ink-3 text-center tabular-nums py-1 border-l-2 border-transparent transition-colors duration-150 hover:text-ink-1"
+        >
+          {String(i + 1).padStart(2, '0')}
+          <span class="sr-only">{label}</span>
+        </a>
+      </li>
+    ))}
+  </ol>
+</nav>

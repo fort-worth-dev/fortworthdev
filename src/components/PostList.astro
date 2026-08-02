@@ -1,0 +1,54 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  posts: CollectionEntry<'blog'>[];
+  showDescription?: boolean;
+}
+
+const { posts, showDescription = false } = Astro.props;
+
+function formatDate(date: Date) {
+  return date.toISOString().slice(0, 10);
+}
+---
+
+{
+  posts.length === 0 ? (
+    <p class="px-4 md:px-6 py-6 text-body text-ink-3">
+      <span class="text-term-green" aria-hidden="true">$</span> total 0 — no posts yet.
+    </p>
+  ) : (
+    <ul class="list-none">
+      {posts.map((post) => (
+        <li class="border-b border-line-1 last:border-b-0">
+          <a
+            href={`/blog/${post.slug}/`}
+            class="row block px-4 md:px-6 py-4 no-underline transition-colors duration-150"
+          >
+            <div class="flex items-baseline gap-3 min-w-0">
+              <span
+                class="text-micro text-ink-3 shrink-0 hidden md:inline tabular-nums"
+                aria-hidden="true"
+              >
+                -rw-r--r--
+              </span>
+              <time
+                datetime={post.data.date.toISOString()}
+                class="text-meta text-term-amber shrink-0 tabular-nums"
+              >
+                {formatDate(post.data.date)}
+              </time>
+              <span class="text-body text-ink-0 truncate row-title transition-colors duration-150">
+                {post.data.title}
+              </span>
+            </div>
+            {showDescription && (
+              <p class="text-body text-ink-1 mt-1.5 md:pl-[7.5rem]">{post.data.description}</p>
+            )}
+          </a>
+        </li>
+      ))}
+    </ul>
+  )
+}

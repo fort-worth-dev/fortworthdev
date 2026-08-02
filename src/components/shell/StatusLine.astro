@@ -1,0 +1,33 @@
+---
+// Desktop only: it advertises keyboard affordances that don't exist on touch.
+const path = Astro.url.pathname;
+const buffers = [
+  { n: 1, href: '/', label: 'home', active: path === '/' },
+  { n: 2, href: '/blog/', label: 'writing', active: path.startsWith('/blog') },
+];
+---
+
+<div
+  class="hidden md:block fixed bottom-0 inset-x-0 z-40 border-t border-line-1 backdrop-blur"
+  style="background: rgba(10,12,14,0.94);"
+>
+  <div class="flex items-center justify-between gap-4 px-6 py-1.5 text-micro text-ink-3">
+    <div class="flex items-center gap-4">
+      <span><kbd class="kbd">?</kbd> keys</span>
+      <span><kbd class="kbd">j</kbd><kbd class="kbd">k</kbd> navigate</span>
+      <span><kbd class="kbd">/</kbd> search</span>
+    </div>
+
+    <div class="flex items-center gap-3 tabular-nums">
+      {buffers.map(({ n, href, label, active }) => (
+        <a
+          href={href}
+          class={`transition-colors duration-150 hover:text-ink-1 ${active ? 'text-term-green' : ''}`}
+          aria-current={active ? 'page' : undefined}
+        >
+          {n}:{label}{active ? '*' : ''}
+        </a>
+      ))}
+    </div>
+  </div>
+</div>

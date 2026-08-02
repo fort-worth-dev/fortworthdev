@@ -1,0 +1,48 @@
+---
+// A tiled pane. The header is the section's identity — a shell command rather
+// than a generic label, so it says what the content *is*.
+interface Props {
+  id: string;
+  cmd: string;
+  /** Short name used by the rail and the command palette. */
+  label: string;
+  /** Grid span + border classes supplied by the composing page. */
+  class?: string;
+  /** Panes whose content is already a list don't need body padding. */
+  flush?: boolean;
+  /**
+   * Whether the command doubles as the pane's heading. Set false for a pane
+   * that already contains the page <h1>, so an <h2> can't precede it.
+   */
+  heading?: boolean;
+}
+
+const { id, cmd, label, class: className = '', flush = false, heading = true } = Astro.props;
+---
+
+<section
+  id={id}
+  data-pane
+  data-label={label}
+  tabindex="-1"
+  class={`pane flex flex-col min-w-0 ${className}`}
+  aria-labelledby={heading ? `${id}-cmd` : undefined}
+  aria-label={heading ? undefined : label}
+>
+  <header class="flex items-center gap-2 px-4 md:px-6 py-2.5 border-b border-line-1 bg-surface-1">
+    <span class="text-term-green select-none" aria-hidden="true">$</span>
+    {
+      heading ? (
+        <h2 id={`${id}-cmd`} class="text-label text-ink-2 tracking-wide font-normal">
+          {cmd}
+        </h2>
+      ) : (
+        <span class="text-label text-ink-2 tracking-wide">{cmd}</span>
+      )
+    }
+  </header>
+
+  <div class={flush ? 'flex-1' : 'flex-1 px-4 md:px-6 py-6 md:py-8'}>
+    <slot />
+  </div>
+</section>

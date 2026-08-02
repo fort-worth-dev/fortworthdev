@@ -1,23 +1,40 @@
 ---
+// `tone` maps each value onto its syntax role: amber for numerals,
+// cyan for links/handles, ink-0 for plain text.
 const stats = [
-  { num: '25+', label: 'Years .NET' },
-  { num: 'AI-first', label: 'Development approach' },
-  { num: 'FTW', label: 'Fort Worth, TX' },
-  { num: '@fortworthdev', label: 'on X / Twitter' },
+  { num: '25+', label: 'Years .NET', tone: 'text-term-amber' },
+  { num: 'AI-first', label: 'Development approach', tone: 'text-ink-0' },
+  { num: 'FTW', label: 'Fort Worth, TX', tone: 'text-ink-0' },
+  {
+    num: '@fortworthdev',
+    label: 'on X / Twitter',
+    tone: 'text-term-cyan',
+    href: 'https://x.com/fortworthdev',
+  },
 ];
 ---
 
-<div
-  class="page-x py-5 grid grid-cols-2 sm:grid-cols-4 gap-6 md:gap-12"
-  style="border-top: 1px solid var(--border-green); border-bottom: 1px solid var(--border-green);"
->
-  {stats.map(({ num, label }) => (
-    <div class="flex flex-col gap-0.5">
-      <span class="font-display font-extrabold text-green-DEFAULT text-stat"
-            style="letter-spacing: -0.02em;">
-        {num}
-      </span>
-      <span class="text-label text-muted uppercase tracking-widest">{label}</span>
+<!-- gap-px over a line-coloured background draws the cell dividers, which keeps
+     the hairlines correct at every column count without last-child rules. -->
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-px bg-line-1">
+  {stats.map(({ num, label, tone, href }) => (
+    <div class="flex flex-col gap-0.5 min-w-0 bg-canvas px-4 md:px-6 py-4">
+      {href ? (
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          class={`${tone} text-stat font-bold truncate transition-opacity duration-150 hover:opacity-80`}
+          style="letter-spacing: -0.03em;"
+        >
+          {num}
+        </a>
+      ) : (
+        <span class={`${tone} text-stat font-bold truncate`} style="letter-spacing: -0.03em;">
+          {num}
+        </span>
+      )}
+      <span class="text-label text-ink-2 uppercase tracking-widest truncate">{label}</span>
     </div>
   ))}
 </div>

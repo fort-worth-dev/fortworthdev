@@ -1,119 +1,49 @@
 ---
+// `tone` is the syntax role for the highlighted phrase: violet for types and
+// product names, ink-0 where the emphasis is rhetorical rather than semantic.
 const cards = [
   {
-    label: '▸ background',
+    label: 'background',
     text: 'Deep-rooted in .NET development since the early 2000s — from Web Forms to Blazor, from SOAP to gRPC. I\'ve seen the stack evolve and I evolve with it.',
     highlight: '.NET development',
+    tone: 'text-term-violet',
   },
   {
-    label: '▸ current focus',
+    label: 'current focus',
     text: 'Helping teams integrate AI coding assistants and build agentic systems — autonomous workflows that actually ship to production.',
     highlight: 'AI coding assistants',
+    tone: 'text-term-violet',
   },
   {
-    label: '▸ consulting work',
+    label: 'consulting work',
     text: 'Available for advisory engagements on AI tooling adoption, architecture reviews, and agentic pipeline design for .NET shops.',
     highlight: 'AI tooling adoption',
+    tone: 'text-ink-0',
   },
   {
-    label: '▸ philosophy',
+    label: 'philosophy',
     text: 'AI doesn\'t replace engineers — it multiplies them. My work is teaching teams how to wield these tools without losing engineering rigor.',
     highlight: 'multiplies them',
+    tone: 'text-ink-0',
   },
-];
-
-const skills = [
-  'AI Coding Assistants (Claude, Copilot, Cursor)',
-  'Agentic Architecture & MCP integration',
-  '.NET / C# (25 yrs, all versions)',
-  'LLM Pipeline Design & RAG systems',
-  'Dev Workflow Consulting',
 ];
 ---
 
-<section
-  class="page-x section-y"
-  id="about"
-  style="border-top: 1px solid var(--border-green);"
->
-  <!-- Section header -->
-  <div class="flex items-center gap-3 mb-10">
-    <span class="text-label text-green-DEFAULT tracking-[0.15em]">// 01</span>
-    <h2 class="text-section-title">About</h2>
-    <div class="h-px max-w-[120px] flex-1" style="background: var(--border-green);"></div>
-  </div>
-
-  <!-- Cards grid -->
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mb-10">
-    {cards.map(({ label, text, highlight }) => {
-      const parts = text.split(highlight);
-      return (
-      <div class="about-card bg-bg-3 p-6 relative overflow-hidden"
-           style="border: 1px solid var(--border-green);">
-        <div class="text-label text-green-DEFAULT tracking-widest uppercase mb-2.5">{label}</div>
-        <p class="text-body text-ink-2 leading-loose">
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+  {cards.map(({ label, text, highlight, tone }) => {
+    const parts = text.split(highlight);
+    return (
+      <div class="card bg-surface-2 border border-line-1 p-5 relative overflow-hidden">
+        <div class="text-label text-ink-2 tracking-widest uppercase mb-2.5">{label}</div>
+        <p class="text-body text-ink-1">
           {parts.map((part, i) => (
             <>
               {part}
-              {i < parts.length - 1 && (
-                <strong class="text-green-DEFAULT font-normal">{highlight}</strong>
-              )}
+              {i < parts.length - 1 && <strong class={`${tone} font-normal`}>{highlight}</strong>}
             </>
           ))}
         </p>
       </div>
-      );
-    })}
-  </div>
-
-  <!-- Terminal -->
-  <div class="terminal max-w-xl" style="border: 1px solid var(--border-green);">
-    <div class="flex items-center gap-2 px-3.5 py-2 bg-bg-surface"
-         style="border-bottom: 1px solid var(--border-green);">
-      <span class="w-2.5 h-2.5 rounded-full bg-red-400"></span>
-      <span class="w-2.5 h-2.5 rounded-full bg-amber"></span>
-      <span class="w-2.5 h-2.5 rounded-full bg-green-dim"></span>
-      <span class="text-label text-muted ml-2 tracking-wide">skills.sh</span>
-    </div>
-    <div class="p-6 text-body leading-loose">
-      <div>
-        <span class="text-green-DEFAULT">$</span>{' '}
-        <span class="text-ink">cat specializations.txt</span>
-      </div>
-      {skills.map((skill) => (
-        <div class="text-ink-2">
-          →{' '}<span class="text-amber">{skill}</span>
-        </div>
-      ))}
-      <div>
-        <span class="text-green-DEFAULT">$</span>{' '}
-        <span class="cursor-blink inline-block w-2 h-4 bg-green-DEFAULT align-middle"></span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<style>
-  .about-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 3px;
-    height: 100%;
-    background: #22c55e;
-    opacity: 0;
-    transition: opacity 0.2s;
-  }
-  .about-card:hover::before {
-    opacity: 1;
-  }
-
-  .cursor-blink {
-    animation: blink 1.1s step-end infinite;
-  }
-  @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
-  }
-</style>
+    );
+  })}
+</div>

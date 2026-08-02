@@ -1,7 +1,5 @@
 ---
-import BaseLayout from './BaseLayout.astro';
-import Nav from '@/components/Nav.astro';
-import Footer from '@/components/Footer.astro';
+import ShellLayout from './ShellLayout.astro';
 
 interface Props {
   title: string;
@@ -18,137 +16,110 @@ const formattedDate = date.toLocaleDateString('en-US', {
 });
 ---
 
-<BaseLayout
-  title={`${title} — Fort Worth Dev`}
-  description={description}
-  ogType="article"
->
-  <div class="scanline" aria-hidden="true"></div>
+<ShellLayout title={`${title} — Fort Worth Dev`} description={description} ogType="article">
+  <article>
+    <header class="px-4 md:px-6 py-8 md:py-12 border-b border-line-1">
+      <a
+        href="/blog/"
+        class="inline-block text-label text-ink-2 tracking-wide mb-6 transition-colors duration-150 hover:text-ink-0"
+      >
+        ← ls ../writing
+      </a>
 
-  <Nav />
-  <main class="page-x section-y max-w-3xl">
-    <a
-      href="/blog"
-      class="inline-block text-meta text-muted uppercase tracking-widest mb-8 transition-colors duration-150 hover:text-green-DEFAULT"
-    >
-      ← All posts
-    </a>
+      <time datetime={date.toISOString()} class="block text-label text-term-amber tracking-[0.15em]">
+        {formattedDate}
+      </time>
+      <h1
+        class="text-ink-0 text-3xl md:text-4xl font-extrabold mt-3 mb-4"
+        style="letter-spacing: -0.035em;"
+      >
+        {title}
+      </h1>
+      <p class="text-lead text-ink-1 measure">{description}</p>
+    </header>
 
-    <article class="blog-prose">
-      <header class="mb-10 pb-8" style="border-bottom: 1px solid var(--border-green);">
-        <time datetime={date.toISOString()} class="text-label text-green-DEFAULT tracking-[0.15em]">
-          {formattedDate}
-        </time>
-        <h1 class="font-display font-bold text-3xl md:text-4xl text-ink mt-3 mb-4" style="letter-spacing: -0.02em;">
-          {title}
-        </h1>
-        <p class="text-body-lg text-ink-2 leading-loose">{description}</p>
-      </header>
-
+    <div class="prose px-4 md:px-6 py-8 md:py-12">
       <slot />
-    </article>
-  </main>
-  <Footer />
-</BaseLayout>
+    </div>
+  </article>
+
+  <p class="px-4 md:px-6 py-4 border-t border-line-1 text-micro text-ink-3 tracking-widest">
+    © {new Date().getFullYear()} fortworthdev.com — Fort Worth, Texas
+  </p>
+</ShellLayout>
 
 <style>
-  .scanline {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(transparent, rgba(74, 222, 128, 0.04), transparent);
-    animation: scan 8s linear infinite;
-    pointer-events: none;
-    z-index: 999;
+  /* Long-form body copy is the one place the site drops out of mono — a full
+     article in monospace is measurably slower to read. Headings, code, and all
+     UI chrome stay mono so the terminal character holds. */
+  .prose {
+    @apply font-sans text-ink-1;
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    max-width: 68ch;
   }
 
-  @keyframes scan {
-    0% {
-      top: -2px;
-    }
-    100% {
-      top: 100vh;
-    }
+  .prose :global(h2) {
+    @apply font-mono font-bold text-ink-0 mt-10 mb-4;
+    font-size: 1.375rem;
+    letter-spacing: -0.02em;
   }
 
-  .blog-prose :global(h2) {
-    @apply font-display font-bold text-ink mt-10 mb-4;
-    font-size: 1.5rem;
+  .prose :global(h3) {
+    @apply font-mono font-bold text-ink-0 mt-8 mb-3;
+    font-size: 1.125rem;
     letter-spacing: -0.01em;
   }
 
-  .blog-prose :global(h3) {
-    @apply font-display font-bold text-ink mt-8 mb-3;
-    font-size: 1.25rem;
+  .prose :global(p) {
+    @apply mb-4;
   }
 
-  .blog-prose :global(p) {
-    color: #94a3b8;
-    font-size: var(--text-body-lg);
-    line-height: 1.75;
-    margin-bottom: 1rem;
+  .prose :global(a) {
+    @apply text-term-cyan underline underline-offset-2 transition-opacity duration-150;
+  }
+  .prose :global(a:hover) {
+    opacity: 0.8;
   }
 
-  .blog-prose :global(a) {
-    color: #4ade80;
-    text-decoration: underline;
-    text-underline-offset: 2px;
-    transition: opacity 0.15s;
+  .prose :global(ul),
+  .prose :global(ol) {
+    @apply mb-4 pl-6;
   }
-
-  .blog-prose :global(a:hover) {
-    opacity: 0.85;
+  .prose :global(ul) {
+    @apply list-disc;
   }
-
-  .blog-prose :global(ul),
-  .blog-prose :global(ol) {
-    color: #94a3b8;
-    font-size: var(--text-body-lg);
-    line-height: 1.75;
-    margin-bottom: 1rem;
-    padding-left: 1.5rem;
+  .prose :global(ol) {
+    @apply list-decimal;
   }
-
-  .blog-prose :global(li) {
+  .prose :global(li) {
     @apply mb-2;
   }
 
-  .blog-prose :global(code) {
-    color: #4ade80;
-    font-size: var(--text-body);
+  .prose :global(strong) {
+    @apply text-ink-0 font-semibold;
   }
 
-  .blog-prose :global(pre) {
-    background: #151b23;
-    color: #94a3b8;
-    font-size: var(--text-body);
-    padding: 1rem;
-    margin-bottom: 1rem;
-    overflow-x: auto;
-    border: 1px solid var(--border-green);
+  .prose :global(code) {
+    @apply font-mono text-term-green;
+    font-size: 0.875em;
   }
 
-  .blog-prose :global(pre code) {
-    color: #94a3b8;
+  .prose :global(pre) {
+    @apply font-mono bg-surface-2 border border-line-1 text-ink-1 p-4 mb-4 overflow-x-auto;
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+  .prose :global(pre code) {
+    @apply text-ink-1;
+    font-size: inherit;
   }
 
-  .blog-prose :global(blockquote) {
-    color: #94a3b8;
-    font-size: var(--text-body-lg);
-    font-style: italic;
-    margin-bottom: 1rem;
-    padding-left: 1rem;
-    border-left: 2px solid var(--border-green-2);
+  .prose :global(blockquote) {
+    @apply mb-4 pl-4 border-l-2 border-line-2 text-ink-2 italic;
   }
 
-  .blog-prose :global(hr) {
-    @apply my-8;
-    border-color: var(--border-green);
-  }
-
-  .blog-prose :global(strong) {
-    @apply text-ink font-normal;
+  .prose :global(hr) {
+    @apply my-8 border-line-1;
   }
 </style>

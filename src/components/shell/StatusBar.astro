@@ -1,0 +1,51 @@
+---
+const navLinks = [
+  { href: '/#about', label: 'about' },
+  { href: '/#engagements', label: 'work' },
+  { href: '/blog/', label: 'writing' },
+  { href: '/#contact', label: 'contact' },
+];
+
+// Rendered at build time so the bar is never empty; the client script corrects
+// it on load and keeps it ticking.
+const clock = new Intl.DateTimeFormat('en-US', {
+  timeZone: 'America/Chicago',
+  hour: '2-digit',
+  minute: '2-digit',
+  hour12: false,
+  timeZoneName: 'short',
+}).format(new Date());
+---
+
+<header
+  class="sticky top-0 z-40 border-b border-line-1 backdrop-blur"
+  style="background: rgba(10,12,14,0.92);"
+>
+  <div class="flex flex-wrap items-center justify-between gap-x-5 gap-y-2 px-4 md:px-6 py-2.5">
+    <a href="/" class="text-meta text-ink-0 shrink-0">
+      <span class="text-ink-3">~/</span>fortworthdev<span class="text-ink-3">.com</span>
+    </a>
+
+    <nav aria-label="Primary">
+      <ul class="flex flex-wrap gap-x-5 gap-y-1 list-none">
+        {navLinks.map(({ href, label }) => (
+          <li>
+            <a
+              href={href}
+              class="text-label text-ink-2 tracking-wide transition-colors duration-150 hover:text-ink-0"
+            >
+              {label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="flex items-center gap-2 text-label text-ink-2 shrink-0">
+      <span class="w-1.5 h-1.5 rounded-full bg-term-green shrink-0" aria-hidden="true"></span>
+      <span class="hidden sm:inline">open to consulting</span>
+      <span class="text-ink-3 hidden sm:inline" aria-hidden="true">·</span>
+      <time data-clock class="text-ink-3 tabular-nums">{clock}</time>
+    </div>
+  </div>
+</header>
