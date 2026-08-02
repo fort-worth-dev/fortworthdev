@@ -11,14 +11,17 @@ import Contact from '@/components/Contact.astro';
 import PostList from '@/components/PostList.astro';
 import { resourceTypes, countOf } from '@/data/resources';
 
+// Order matters and must match the DOM order below — the rail numbers the
+// panes as it lists them. What a visitor can *use* (writing, resources) sits
+// directly under the hero; the biographical panes follow.
 const sections = [
   { id: 'whoami', label: 'whoami' },
+  { id: 'writing', label: 'writing' },
+  { id: 'resources', label: 'resources' },
   { id: 'about', label: 'about' },
   { id: 'skills', label: 'specializations' },
   { id: 'projects', label: 'projects' },
   { id: 'contact', label: 'contact' },
-  { id: 'writing', label: 'writing' },
-  { id: 'resources', label: 'resources' },
 ];
 
 const posts = (
@@ -45,38 +48,6 @@ const posts = (
     <div class="lg:col-span-5 border-b border-line-1">
       <StatsBar />
     </div>
-
-    <Pane
-      id="about"
-      cmd="cat about.md"
-      label="about"
-      class="lg:col-span-3 border-b border-line-1 lg:border-r"
-    >
-      <About />
-    </Pane>
-
-    <Pane
-      id="skills"
-      cmd="./skills.sh"
-      label="specializations"
-      class="lg:col-span-2 border-b border-line-1"
-    >
-      <Skills />
-    </Pane>
-
-    <Pane
-      id="projects"
-      cmd="ls ./projects"
-      label="projects"
-      class="lg:col-span-3 border-b border-line-1 lg:border-r"
-      flush
-    >
-      <Projects />
-    </Pane>
-
-    <Pane id="contact" cmd="cat contact.json" label="contact" class="lg:col-span-2 border-b border-line-1">
-      <Contact />
-    </Pane>
 
     <Pane
       id="writing"
@@ -112,6 +83,43 @@ const posts = (
           </li>
         ))}
       </ul>
+    </Pane>
+
+    <Pane
+      id="about"
+      cmd="cat about.md"
+      label="about"
+      class="lg:col-span-3 border-b border-line-1 lg:border-r"
+    >
+      <About />
+    </Pane>
+
+    <Pane
+      id="skills"
+      cmd="./skills.sh"
+      label="specializations"
+      class="lg:col-span-2 border-b border-line-1"
+    >
+      <Skills />
+    </Pane>
+
+    <Pane
+      id="projects"
+      cmd="ls ./projects"
+      label="projects"
+      class="lg:col-span-3 border-b border-line-1 lg:border-r"
+      flush
+    >
+      <Projects />
+    </Pane>
+
+    <Pane
+      id="contact"
+      cmd="cat contact.json"
+      label="contact"
+      class="lg:col-span-2 border-b border-line-1"
+    >
+      <Contact />
     </Pane>
   </div>
 
