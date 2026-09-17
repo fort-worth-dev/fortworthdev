@@ -1,0 +1,51 @@
+---
+// Working principles rendered as a diff: the habit being replaced on the
+// `-` line, the one that survived contact with real work on the `+` line.
+// The format is the argument — every one of these was a change, not a rule.
+const principles = [
+  {
+    del: 'trust the output when it looks right',
+    add: 'verify before you trust; speed without verification is faster failure',
+  },
+  {
+    del: 'write a better prompt',
+    add: 'engineer the context: what the model needs to know, and nothing it does not',
+  },
+  {
+    del: 'reach for an agent',
+    add: 'reach for a workflow first — agents only where the path is genuinely unknown',
+  },
+  {
+    del: 'let the model own the repo',
+    add: 'keep a human on every irreversible step: merge, deploy, delete, spend',
+  },
+  {
+    del: 'ship the demo',
+    add: 'ship what you can still maintain in six months, with or without the model',
+  },
+  {
+    del: 'write it up once it is figured out',
+    add: 'write it down while the sharp edges are still fresh',
+  },
+];
+---
+
+<div class="text-meta">
+  <p class="diff-hunk px-4 md:px-6 py-2 border-b border-line-1">
+    @@ -1,{principles.length} +1,{principles.length} @@ how I work now
+  </p>
+  <ol class="list-none py-2">
+    {principles.map(({ del, add }) => (
+      <li class="mb-1 last:mb-0">
+        <div class="diff-line diff-del">
+          <span class="diff-sign" aria-hidden="true">-</span>
+          <span><span class="sr-only">Replaced: </span>{del}</span>
+        </div>
+        <div class="diff-line diff-add">
+          <span class="diff-sign" aria-hidden="true">+</span>
+          <span><span class="sr-only">With: </span>{add}</span>
+        </div>
+      </li>
+    ))}
+  </ol>
+</div>

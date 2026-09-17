@@ -1,0 +1,75 @@
+---
+// The working loop as a small graph. Each project is a lane; its node sits
+// at the stage it is in. Done stages fill green, the current one gets a
+// single slow ring (the one non-hover animation outside the hero), and the
+// rest stay neutral. Pure inline SVG, ~1 KB, no script.
+import { stages, projects } from '@/data/projects';
+
+const W = 560;
+const H = 40 + projects.length * 44;
+const padX = 64;
+const step = (W - padX * 2) / (stages.length - 1);
+const x = (i: number) => padX + i * step;
+const y = (lane: number) => 52 + lane * 44;
+---
+
+<svg
+  viewBox={`0 0 ${W} ${H}`}
+  class="w-full h-auto max-w-[560px]"
+  role="img"
+  aria-label={`Working loop: ${stages.join(', ')}. ${projects
+    .map((p) => `${p.name} is in ${p.stage}`)
+    .join('; ')}.`}
+>
+  <!-- stage labels -->
+  {stages.map((s, i) => (
+    <text
+      x={x(i)}
+      y="18"
+      text-anchor="middle"
+      class="fill-ink-2"
+      style="font: 500 11px 'JetBrains Mono', ui-monospace, monospace; letter-spacing: .06em;"
+    >
+      {s}
+    </text>
+  ))}
+
+  <!-- lanes -->
+  {projects.map((p, lane) => {
+    const cur = stages.indexOf(p.stage);
+    return (
+      <g>
+        {stages.slice(0, -1).map((_, i) => (
+          <line
+            x1={x(i) + 8}
+            y1={y(lane)}
+            x2={x(i + 1) - 8}
+            y2={y(lane)}
+            class={`pipe-edge ${i < cur ? 'is-done' : ''}`}
+          />
+        ))}
+        {stages.map((_, i) => (
+          <g>
+            {i === cur && <circle cx={x(i)} cy={y(lane)} r="7" class="pipe-ring" />}
+            <circle
+              cx={x(i)}
+              cy={y(lane)}
+              r={i === cur ? 6 : 4.5}
+              class={`pipe-node ${i < cur ? 'is-done' : ''} ${i === cur ? 'is-active' : ''}`}
+              stroke-width="1.5"
+            />
+          </g>
+        ))}
+        <text
+          x={x(0) - 14}
+          y={y(lane) + 4}
+          text-anchor="end"
+          class="fill-ink-3"
+          style="font: 400 11px 'JetBrains Mono', ui-monospace, monospace;"
+        >
+          {String(lane + 1).padStart(2, '0')}
+        </text>
+      </g>
+    );
+  })}
+</svg>

@@ -3,123 +3,101 @@ import { getCollection } from 'astro:content';
 import ShellLayout from '@/layouts/ShellLayout.astro';
 import Pane from '@/components/shell/Pane.astro';
 import Hero from '@/components/Hero.astro';
-import StatsBar from '@/components/StatsBar.astro';
-import About from '@/components/About.astro';
-import Skills from '@/components/Skills.astro';
-import Projects from '@/components/Projects.astro';
-import Contact from '@/components/Contact.astro';
+import NowBuilding from '@/components/NowBuilding.astro';
 import PostList from '@/components/PostList.astro';
-import { resourceTypes, countOf } from '@/data/resources';
+import Principles from '@/components/Principles.astro';
+import ResourceIndex from '@/components/ResourceIndex.astro';
+import Contact from '@/components/Contact.astro';
 
 // Order matters and must match the DOM order below — the rail numbers the
-// panes as it lists them. What a visitor can *use* (writing, resources) sits
-// directly under the hero; the biographical panes follow.
+// panes as it lists them.
 const sections = [
   { id: 'whoami', label: 'whoami' },
-  { id: 'writing', label: 'writing' },
+  { id: 'building', label: 'now building' },
+  { id: 'notes', label: 'field notes' },
+  { id: 'principles', label: 'principles' },
   { id: 'resources', label: 'resources' },
-  { id: 'about', label: 'about' },
-  { id: 'skills', label: 'specializations' },
-  { id: 'projects', label: 'projects' },
   { id: 'contact', label: 'contact' },
 ];
 
 const posts = (
   await getCollection('blog', ({ data }) => (import.meta.env.PROD ? !data.draft : true))
-)
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, 4);
+).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 
 <ShellLayout sections={sections}>
-  <!-- Panes tile on a 5-column grid so widths vary deliberately: full-bleed
-       hero, then 3/2 splits that give each pane a different rhythm. -->
+  <!-- Panes tile on a 5-column grid so widths carry hierarchy: a full-bleed
+       hero, then 3/2 splits that give each row a different rhythm. -->
   <div class="grid grid-cols-1 lg:grid-cols-5">
     <Pane
       id="whoami"
       cmd="whoami"
       label="whoami"
       heading={false}
+      flush
       class="lg:col-span-5 border-b border-line-1"
     >
-      <Hero />
+      <Hero posts={posts} />
     </Pane>
 
-    <div class="lg:col-span-5 border-b border-line-1">
-      <StatsBar />
-    </div>
-
     <Pane
-      id="writing"
-      cmd="ls -la ./writing"
-      label="writing"
+      id="building"
+      cmd="./workflow --status"
+      label="now building"
       class="lg:col-span-3 border-b border-line-1 lg:border-r"
       flush
     >
-      <PostList posts={posts} />
+      <div class="reveal"><NowBuilding /></div>
+    </Pane>
+
+    <Pane
+      id="notes"
+      cmd="ls -t notes/"
+      label="field notes"
+      class="lg:col-span-2 border-b border-line-1"
+      flush
+    >
+      <div class="reveal">
+        <PostList posts={posts.slice(0, 4)} showDescription />
+        {posts.length > 0 && (
+          <a
+            href="/blog/"
+            class="block px-4 md:px-6 py-3.5 text-label text-ink-2 tracking-wide border-t border-line-1 no-underline transition-colors duration-150 hover:text-ink-0"
+          >
+            <span class="text-term-green" aria-hidden="true">$</span> cd notes/ — all
+            {posts.length} {posts.length === 1 ? 'entry' : 'entries'}
+          </a>
+        )}
+      </div>
+    </Pane>
+
+    <Pane
+      id="principles"
+      cmd="git diff -- principles.md"
+      label="principles"
+      class="lg:col-span-3 border-b border-line-1 lg:border-r"
+      flush
+    >
+      <div class="reveal"><Principles /></div>
     </Pane>
 
     <Pane
       id="resources"
-      cmd="ls ./resources"
+      cmd="tree resources/"
       label="resources"
       class="lg:col-span-2 border-b border-line-1"
       flush
     >
-      <ul class="list-none">
-        {resourceTypes.map(({ type, dir, blurb }) => (
-          <li class="row border-b border-line-1 last:border-b-0 transition-colors duration-150">
-            <a href={`/resources/${dir}/`} class="block px-4 md:px-6 py-3.5 no-underline">
-              <div class="flex items-baseline gap-3 min-w-0">
-                <span class="text-meta text-term-amber shrink-0 tabular-nums">
-                  {String(countOf(type)).padStart(2, '0')}
-                </span>
-                <span class="text-body text-term-cyan truncate row-title transition-colors duration-150">
-                  {dir}/
-                </span>
-              </div>
-              <p class="text-meta text-ink-2 mt-1">{blurb}</p>
-            </a>
-          </li>
-        ))}
-      </ul>
-    </Pane>
-
-    <Pane
-      id="about"
-      cmd="cat about.md"
-      label="about"
-      class="lg:col-span-3 border-b border-line-1 lg:border-r"
-    >
-      <About />
-    </Pane>
-
-    <Pane
-      id="skills"
-      cmd="./skills.sh"
-      label="specializations"
-      class="lg:col-span-2 border-b border-line-1"
-    >
-      <Skills />
-    </Pane>
-
-    <Pane
-      id="projects"
-      cmd="ls ./projects"
-      label="projects"
-      class="lg:col-span-3 border-b border-line-1 lg:border-r"
-      flush
-    >
-      <Projects />
+      <div class="reveal"><ResourceIndex /></div>
     </Pane>
 
     <Pane
       id="contact"
       cmd="cat contact.json"
       label="contact"
-      class="lg:col-span-2 border-b border-line-1"
+      class="lg:col-span-5 border-b border-line-1"
     >
-      <Contact />
+      <div class="reveal"><Contact /></div>
     </Pane>
   </div>
 
