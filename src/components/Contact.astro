@@ -1,17 +1,35 @@
 ---
 const links = [
-  { key: 'x', href: 'https://x.com/fortworthdev', label: '@fortworthdev' },
   { key: 'email', href: 'mailto:rob@fortworthdev.com', label: 'rob@fortworthdev.com' },
-  { key: 'github', href: 'https://github.com/fortworthdev', label: 'github.com/fortworthdev' },
-  { key: 'location', href: null, label: 'Fort Worth, TX' },
+  { key: 'github', href: 'https://github.com/fort-worth-dev', label: 'github.com/fort-worth-dev' },
+  { key: 'x', href: 'https://x.com/fortworthdev', label: '@fortworthdev' },
+  { key: 'location', href: null, label: 'Fort Worth, TX (America/Chicago)' },
+];
+
+const openTo = [
+  'Comparing notes on assistants, agents, or MCP in a .NET shop',
+  'Talking to a team that is adopting AI coding tools and wants the unvarnished version',
+  'Corrections. If a note here is wrong, I want to know',
 ];
 ---
 
-<p class="text-body text-ink-1 mb-6">
-  Learning the same stack? Comparing notes is the point. Questions, corrections, interesting
-  problems — the inbox is open.
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+<div>
+<p class="text-body text-ink-1 measure mb-5">
+  Learning the same stack? Comparing notes is the point. The inbox is open for:
 </p>
 
+<ul class="list-none flex flex-col gap-2 measure">
+  {openTo.map((item) => (
+    <li class="text-body text-ink-1 flex gap-2.5">
+      <span class="text-term-green select-none shrink-0" aria-hidden="true">▸</span>
+      <span>{item}</span>
+    </li>
+  ))}
+</ul>
+</div>
+
+<div>
 <!-- Reads as a key/value record, matching the `cat contact.json` header. -->
 <dl class="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2.5 items-baseline">
   {links.map(({ key, href, label }) => (
@@ -35,4 +53,6 @@ const links = [
   ))}
 </dl>
 
-<a href="mailto:rob@fortworthdev.com" class="btn-solid mt-7">say hello</a>
+<a href="mailto:rob@fortworthdev.com" class="btn-ghost mt-7">send a note</a>
+</div>
+</div>

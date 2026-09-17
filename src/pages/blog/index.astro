@@ -10,16 +10,16 @@ const posts = (
 ---
 
 <ShellLayout
-  title="Writing — Fort Worth Dev"
+  title="Field notes — Fort Worth Dev"
   description="Field notes for developers learning AI coding assistants and agentic workflow development — written while doing the work."
 >
-  <Pane id="writing" cmd="ls -la ./writing" label="writing" class="border-b border-line-1">
+  <Pane id="notes" cmd="ls -t notes/" label="field notes" class="border-b border-line-1">
     <p class="text-body text-ink-1 measure">
       Field notes for developers learning <span class="text-term-cyan">assistants/</span> — using
       AI coding assistants well — and <span class="text-term-cyan">agents/</span> — agentic &
       workflow development. Written while doing the work, not after mastering it.
     </p>
-    <p class="text-meta text-ink-3 mt-2 tabular-nums">total {posts.length}</p>
+    {posts.length > 0 && <p class="text-meta text-ink-3 mt-2 tabular-nums">total {posts.length}</p>}
   </Pane>
 
   <div class="border-b border-line-1">

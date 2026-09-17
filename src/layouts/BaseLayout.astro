@@ -8,7 +8,7 @@ interface Props {
 }
 
 const {
-  title = 'Fort Worth Dev — AI + .NET, Built in Public',
+  title = 'Fort Worth Dev — practical AI-assisted .NET development, in public',
   description = 'A working log of AI-assisted and agentic development from a 25-year .NET veteran — a resource for developers learning AI coding assistants and agentic workflows. Fort Worth, TX.',
   ogType = 'website',
 } = Astro.props;
@@ -20,6 +20,7 @@ const pageUrl = Astro.url.href;
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <script is:inline>document.documentElement.classList.add('js');</script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />

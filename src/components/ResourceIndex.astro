@@ -1,0 +1,35 @@
+---
+// `tree resources/` — three curated directories with counts, plus the date
+// the index was last verified. The list is only worth reading because
+// every link is personally used and periodically re-checked, so say so.
+import { resources, resourceTypes, countOf } from '@/data/resources';
+
+const lastChecked = resources.map((r) => r.checked).sort().at(-1) ?? '—';
+---
+
+<ul class="list-none">
+  {resourceTypes.map(({ type, dir, blurb }, i) => (
+    <li class="row border-b border-line-1 transition-colors duration-150">
+      <a href={`/resources/${dir}/`} class="block px-4 md:px-6 py-3.5 no-underline">
+        <div class="flex items-baseline gap-3 min-w-0">
+          <span class="text-ink-3 shrink-0" aria-hidden="true">
+            {i === resourceTypes.length - 1 ? '└──' : '├──'}
+          </span>
+          <span class="text-body text-term-cyan truncate row-title transition-colors duration-150">
+            {dir}/
+          </span>
+          <span class="text-meta text-term-amber shrink-0 tabular-nums ml-auto">
+            {String(countOf(type)).padStart(2, '0')}
+          </span>
+        </div>
+        <p class="text-meta text-ink-2 mt-1 pl-[4ch]">{blurb}</p>
+      </a>
+    </li>
+  ))}
+</ul>
+
+<p class="px-4 md:px-6 py-3.5 text-meta text-ink-2">
+  <span class="text-term-amber tabular-nums">{resources.length}</span> entries, every one used
+  before it was listed. Last verified
+  <time datetime={lastChecked} class="text-term-amber tabular-nums">{lastChecked}</time>.
+</p>

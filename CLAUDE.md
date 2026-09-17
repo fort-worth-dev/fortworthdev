@@ -25,7 +25,7 @@ No test suite. No linter configured.
 
 ```
 src/
-  components/       # Astro components (Hero, About, Skills, etc.)
+  components/       # Hero, NowBuilding + Pipeline, Principles, ResourceIndex, Contact, PostList
   components/shell/ # Terminal chrome: Rail, Pane, StatusBar, CommandPalette, HelpOverlay
   content/blog/     # MDX posts (schema: title, description, date, category, draft)
   data/             # resources.ts (curated link list), projects.ts
@@ -53,13 +53,17 @@ Component patterns: `.btn-solid` / `.btn-ghost` for CTAs, `.card` for hoverable 
 
 **Blog posts** (`src/content/blog/`): MDX with frontmatter schema in `src/content/config.ts`. Categories: `assistants`, `agents`, `notes`. Posts with `draft: true` are hidden in production.
 
+**Homepage** (`src/pages/index.astro`): six panes in order — `whoami` (hero), `building` (`./workflow --status`, driven by `src/data/projects.ts` with a `stage`), `notes`, `principles` (rendered as a diff), `resources` (`tree resources/`), `contact`. The hero transcript pulls the two latest posts from the collection.
+
+**Motion budget**: hero typed entrance (pure CSS, `--d`/`--dur`/`--n` custom properties), one blinking cursor, one ring pulse on the active pipeline stage, a 6px `.reveal` settle per pane body (IntersectionObserver, gated on `html.js`). All collapse under `prefers-reduced-motion`. Add nothing else without removing something.
+
 **Resources** (`src/data/resources.ts`): curated links typed as `video | repo | article`, each with track (`assistants | agents`), annotation, and last-checked date. Two rules: nothing unvetted, every link periodically re-verified.
 
 ## Deployment
 
 - **Host:** Hostinger (shared hosting, FTP)
 - **CI:** GitHub Actions — `build.yml` (PR + push) and `deploy.yml` (push to main)
-- **Repo:** `fort-worth-dev/fortworthdev` on GitHub
+- **Repo:** `fort-worth-dev/fortworthdev` on GitHub (public links use `github.com/fort-worth-dev`)
 - **Deploy details:** see `DEPLOY.md`
 
 Secrets required: `FTP_HOST`, `FTP_USERNAME`, `FTP_PASSWORD` (GitHub repo secrets).

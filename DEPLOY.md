@@ -80,7 +80,7 @@ After a successful deploy:
 
 - https://fortworthdev.com/
 - https://fortworthdev.com/blog/
-- https://fortworthdev.com/blog/welcome/
+- https://fortworthdev.com/resources/
 
 Check that HTTPS redirects work and that a bad URL shows the custom 404 page.
 

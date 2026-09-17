@@ -24,10 +24,10 @@ const posts = (
 
 const paletteItems = [
   { href: '/', label: 'home', kind: 'page' },
-  { href: '/#about', label: 'about', kind: 'section' },
-  { href: '/#projects', label: 'projects', kind: 'section' },
+  { href: '/#building', label: 'now building', kind: 'section' },
+  { href: '/#principles', label: 'principles', kind: 'section' },
   { href: '/#contact', label: 'contact', kind: 'section' },
-  { href: '/blog/', label: 'writing', kind: 'page' },
+  { href: '/blog/', label: 'field notes', kind: 'page' },
   ...posts.map((p) => ({ href: `/blog/${p.slug}/`, label: p.data.title, kind: 'post' })),
   { href: '/resources/', label: 'resources', kind: 'page' },
   ...resourceTypes.map(({ dir }) => ({
@@ -40,8 +40,8 @@ const paletteItems = [
   ...resources.map((r) => ({ href: r.url, label: r.title, kind: r.type, external: true })),
   { href: 'https://x.com/fortworthdev', label: '@fortworthdev on X', kind: 'link', external: true },
   {
-    href: 'https://github.com/fortworthdev',
-    label: 'github.com/fortworthdev',
+    href: 'https://github.com/fort-worth-dev',
+    label: 'github.com/fort-worth-dev',
     kind: 'link',
     external: true,
   },
@@ -264,6 +264,27 @@ const paletteItems = [
         break;
     }
   });
+
+  // Scroll reveal: one soft settle per pane body, once. Elements are hidden
+  // by CSS only after this script confirms it can observe them, so a failed
+  // or absent script never leaves content invisible.
+  const revealEls = document.querySelectorAll<HTMLElement>('.reveal');
+  if (revealEls.length && 'IntersectionObserver' in window && !reduce.matches) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            e.target.classList.add('is-in');
+            io.unobserve(e.target);
+          }
+        }
+      },
+      { rootMargin: '0px 0px -8% 0px', threshold: 0.05 }
+    );
+    revealEls.forEach((el) => io.observe(el));
+  } else {
+    revealEls.forEach((el) => el.classList.add('is-in'));
+  }
 
   const clockEl = document.querySelector('[data-clock]');
   const fmt = new Intl.DateTimeFormat('en-US', {

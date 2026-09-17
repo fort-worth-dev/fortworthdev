@@ -1,12 +1,16 @@
-// Shared by Projects.astro (the `ls ./projects` pane) and StatsBar (the count).
-// Only list real, defensible work — an honest `total 1` beats padded rows.
+// Shared by NowBuilding.astro (the `./workflow --status` pane). Only list
+// real, defensible work — an honest single row beats padded rows.
+
+/** Stages of the working loop the site keeps describing. Order matters. */
+export const stages = ['plan', 'build', 'verify', 'ship', 'write'] as const;
+export type Stage = (typeof stages)[number];
 
 export interface Project {
   /** Directory-style name rendered as `name/` in the listing. */
   name: string;
   description: string;
-  /** `building` renders green (live state); `shipped` renders neutral. */
-  status: 'building' | 'shipped';
+  /** Where the project sits in the loop right now. Drives the pipeline. */
+  stage: Stage;
   /** Exact substrings of `description` to highlight as product names. */
   tools: string[];
   /** Repo or live URL. Omit to render as plain text. */
@@ -18,15 +22,23 @@ export const projects: Project[] = [
     name: 'fortworthdev.com',
     description:
       'This site — a terminal-native Astro build, designed and shipped end-to-end with AI coding agents. The workflow behind it is the first case study.',
-    status: 'building',
+    stage: 'write',
     tools: ['Astro'],
+    href: 'https://github.com/fort-worth-dev/fortworthdev',
+  },
+  {
+    name: 'ai-devs-meeting',
+    description:
+      'A recurring AI Developers meeting at work: assistants, agents, and the habits that make them safe on real codebases. Notes from it feed the field notes here.',
+    stage: 'build',
+    tools: [],
   },
   // Template for the next entry:
   // {
   //   name: 'project-name',
   //   description: 'One or two sentences: what it does and what it demonstrates.',
-  //   status: 'building',
+  //   stage: 'verify',
   //   tools: ['Claude Code', 'MCP'],
-  //   href: 'https://github.com/fortworthdev/project-name',
+  //   href: 'https://github.com/fort-worth-dev/project-name',
   // },
 ];
