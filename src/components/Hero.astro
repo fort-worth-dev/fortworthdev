@@ -107,7 +107,7 @@ const transcript =
 
     <!-- Session -->
     <div class="lg:col-span-6 flex items-center">
-      <div class="term w-full text-meta leading-relaxed" role="img" aria-label="Terminal session: whoami — Rob, senior .NET engineer with 25 years of experience in Fort Worth, Texas. Current focus: AI-assisted development, agentic workflows, developer tooling. Latest notes listed. Git status: building in public.">
+      <div class="term w-full text-meta leading-relaxed" role="img" aria-label={`Terminal session: whoami — Rob, senior .NET engineer with 25 years of experience in Fort Worth, Texas. Current focus: AI-assisted development, agentic workflows, developer tooling. ${latest.length > 0 ? 'Latest notes are listed.' : 'No field notes are published yet.'} Git status: building in public.`}>
         <div class="term-bar" aria-hidden="true">
           <span class="term-dot"></span>
           <span class="term-dot"></span>
